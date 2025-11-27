@@ -1,0 +1,20 @@
+{
+    "TITLE_LOGIN": "Sign In",
+    "LABEL_EMAIL": "Email",
+    "LABEL_PASS": "Password",
+    "LINK_FORGOT": "Forgot Password",
+    "BUTTON_LOGIN": "Sign In",
+    "LINK_REGISTER_PROMPT": "Don't have an account?",
+    "LINK_REGISTER_TEXT": "Register",
+    "CURRENT_LANG_DISPLAY": "English - EN",
+    "TITLE_REGISTER": "Register",
+    "LABEL_USERNAME": "Username",
+    "LABEL_CONFIRM_PASS": "Confirm Password",
+    "LABEL_PHONE": "Mobile Phone Number",
+    "BUTTON_REGISTER": "Sign Up",
+    "LINK_LOGIN_PROMPT": "Already have an account?",
+    "LINK_LOGIN_TEXT": "Login",
+    "REGISTER_SUCCESS": "Registration Successful",
+    "REGISTER_FAIL": "Registration Failed",
+    "REGISTER_FAIL_MESSAGE": "Please fill in all required fields."
+}

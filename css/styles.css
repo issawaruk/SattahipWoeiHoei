@@ -1,0 +1,550 @@
+:root {
+    --bg: #383838;
+    /* สีพื้นหลังหลัก (ดำมาก) */
+    --surface: #111111;
+    /* พื้นผิว/การ์ด */
+    --muted: #ffffff;
+    /* ข้อความรอง */
+    --accent: #7c4dff;
+    /* สีม่วงไฮไลต์ */
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.03);
+}
+
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial
+}
+
+body {
+    background: var(--bg);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased
+}
+
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.95);
+    /* พื้นดำทึบขึ้น */
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0);
+    /* เงาด้านล่างเพื่อให้เห็นขอบ */
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 80px;
+    /* <<< แก้ไข: ตั้งเป็น 0 เพื่อชิดขอบที่สุด */
+    min-height: 60px;
+}
+
+/* Left: logo */
+.logo {
+    height: 50px;
+    /* ปรับตามต้องการ */
+    width: auto;
+    /* ให้ปรับสัดส่วนอัตโนมัติ */
+    display: block;
+}
+
+.logo-link {
+    display: inline-flex;
+    align-items: center
+}
+
+
+/* Center: links */
+.nav-center {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    align-items: center
+}
+
+.nav-link {
+    display: inline-block;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--white);
+    background: var(--glass);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.08)
+}
+
+
+/* Active/Highlight */
+.nav-link.active {
+    color: var(--accent);
+    box-shadow: inset 0 -3px 0 var(--accent)
+}
+
+
+/* Right: login button */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700
+}
+
+.btn-login {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid rgba(0, 0, 0, 0.06)
+}
+
+.btn-login:hover {
+    background: linear-gradient(90deg, rgba(124, 77, 255, 0.12), rgba(124, 77, 255, 0.06));
+    border-color: var(--accent);
+    color: var(--white)
+}
+
+
+/* Small devices: collapse center into an overlay */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: 0;
+    padding: 8px;
+    margin-left: 8px
+}
+
+.nav-toggle .hamb {
+    width: 20px;
+    height: 2px;
+    background: var(--white);
+    display: block;
+    position: relative
+}
+
+.nav-toggle .hamb::after,
+.nav-toggle .hamb::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--white)
+}
+
+.nav-toggle .hamb::before {
+    top: -6px
+}
+
+.nav-toggle .hamb::after {
+    bottom: -6px
+}
+
+
+@media (max-width:820px) {
+    .lang-switcher {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+        border: 2px solid var(--accent);
+    }
+
+    .lang-menu {
+        position: static;
+        /* ไม่อยู่ในตำแหน่ง Absolute เมื่อจอเล็ก */
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        margin-top: 0;
+        min-width: auto;
+        padding: 0;
+    }
+
+    .nav-center {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 64px;
+        flex-direction: column;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.8));
+        padding: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        transform: translateY(-20px);
+        opacity: 0;
+        pointer-events: none;
+        transition: all .22s ease;
+        border-radius: 0 0 12px 12px
+    }
+
+    .nav-center.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto
+    }
+
+    .nav-toggle {
+        display: inline-flex
+    }
+
+    .nav-right {
+        display: none
+    }
+
+    .logo {
+        height: 40px
+    }
+
+    .nav-link {
+        width: 100%;
+        padding: 0.9rem 1rem
+    }
+}
+
+
+/* Main content style example */
+main {
+    padding: 3rem 1rem;
+    max-width: 1100px;
+    margin: 0 auto
+}
+
+section h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem
+}
+
+section p {
+    color: var(--muted);
+    line-height: 1.6
+}
+
+
+/* Utility */
+.hidden {
+    display: none
+}
+
+
+/* Dark subtle divider */
+n hr {
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    margin: 2rem 0
+}
+
+/* ----------------------------------
+   CSS สำหรับไอคอนลอยที่ขวาล่าง
+   ---------------------------------- */
+.fixed-chat-icon {
+    /* **กำหนดตำแหน่งให้ลอยอยู่กับที่ (Fixed Position) และติดตามไปตลอด** */
+    position: fixed;
+
+    /* กำหนดให้อยู่ที่ขวา-ล่างสุด */
+    right: 20px;
+    /* ระยะห่างจากขอบขวา 20px */
+    bottom: 20px;
+    /* ระยะห่างจากขอบล่าง 20px */
+
+    /* จัดรูปแบบวงกลมสีดำ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    /* ขนาดวงกลม */
+    height: 50px;
+    border-radius: 50%;
+    background-color: black;
+    /* พื้นหลังสีดำ */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    /* เพิ่มเงาเล็กน้อย */
+
+    /* สไตล์ของไอคอนภายใน */
+    font-size: 18px;
+    color: white;
+    /* สีไอคอนเป็นสีขาว (ตรงข้ามกับภาพเดิมเพื่อความชัดเจน) */
+    text-decoration: none;
+    /* ลบเส้นใต้จากแท็ก <a> */
+    z-index: 1000;
+    /* ทำให้ไอคอนอยู่เหนือองค์ประกอบอื่นๆ */
+    transition: transform 0.3s ease;
+    /* เพิ่ม Animation เล็กน้อย */
+}
+
+.fixed-chat-icon:hover {
+    transform: scale(1.1);
+}
+
+/* --- Footer Styles --- */
+
+.site-footer {
+    background-color: #111111;
+    /* พื้นหลัง footer เข้มกว่า body เล็กน้อย */
+    color: #e0e0e0;
+    padding: 40px 20px;
+    font-size: 0.95em;
+}
+
+.footer-top {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 30px;
+}
+
+.footer-logo-link {
+    display: block;
+    /* ทำให้ลิงก์ควบคุมขนาดได้ */
+    margin-right: 50px;
+    padding-top: 5px;
+    /* ปรับการจัดแนวเล็กน้อย */
+}
+
+.footer-logo-img {
+    height: 50px;
+    /* **กำหนดความสูงที่เหมาะสมสำหรับ Footer (เล็กกว่า Header เล็กน้อย)** */
+    width: auto;
+    display: block;
+}
+
+.footer-links {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-around;
+    /* กระจายคอลัมน์ */
+}
+
+.link-column h4 {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.link-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.link-column a {
+    color: #b0b0b0;
+    /* สีข้อความลิงก์อ่อนๆ */
+    text-decoration: none;
+    display: block;
+    padding: 4px 0;
+    transition: color 0.2s ease;
+}
+
+.link-column a:hover {
+    color: var(--accent, #7c4dff);
+    /* เปลี่ยนเป็นสีม่วงเมื่อ hover */
+}
+
+.footer-divider {
+    border: none;
+    border-top: 1px dotted rgba(255, 255, 255, 0.1);
+    /* เส้นประสีขาวจางๆ */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-bottom {
+    max-width: 1200px;
+    margin: 20px auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    /* รองรับจอเล็ก */
+    padding-top: 10px;
+}
+
+.footer-policy a,
+.footer-social a,
+.footer-social span {
+    color: #b0b0b0;
+    text-decoration: none;
+    margin-right: 15px;
+    transition: color 0.2s ease;
+}
+
+.footer-social span {
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.footer-policy a:hover,
+.footer-social a:hover {
+    color: var(--accent, #7c4dff);
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .footer-top {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-logo {
+        margin-bottom: 30px;
+    }
+
+    .footer-links {
+        justify-content: space-between;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-links {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .link-column {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-policy,
+    .footer-social {
+        margin-bottom: 15px;
+    }
+
+    .footer-policy a,
+    .footer-social a {
+        margin-right: 8px;
+        margin-left: 8px;
+    }
+}
+
+/* เพิ่มใน <style> block เดิม */
+
+/* ส่วนนี้คือ CSS ใหม่สำหรับลิงก์ลืมรหัสผ่าน */
+.forgot-link {
+    text-align: right;
+    margin-top: 5px;
+    /* ระยะห่างจากช่องรหัสผ่านด้านบน */
+    margin-bottom: 20px;
+    /* ลดระยะห่างกับปุ่มเข้าสู่ระบบ */
+    font-size: 0.85em;
+}
+
+.forgot-link a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.forgot-link a:hover {
+    color: var(--white);
+}
+
+/* ปรับปุ่มหลักในกรณีที่มีลิงก์ลืมรหัสผ่านอยู่เหนือมัน */
+.login-card .btn-primary {
+    margin-top: 0.5rem;
+    /* ลดระยะห่างจาก 1.5rem เหลือ 0.5rem เพื่อให้ชิดลิงก์ด้านบน */
+}
+
+.lang-switcher {
+    position: relative;
+    cursor: pointer;
+    padding: 0.5rem 0.9rem;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--white);
+    border: 2px solid rgba(0, 0, 0, 0.06);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.lang-switcher:hover {
+    background: var(--glass);
+    border-color: var(--accent);
+}
+
+.lang-menu {
+    position: absolute;
+    top: 100%;
+    /* วางไว้ใต้ปุ่ม */
+    right: 0;
+    margin-top: 5px;
+    background: var(--surface);
+    /* พื้นหลังการ์ด #111111 */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    min-width: 200px;
+    z-index: 60;
+    /* ให้อยู่เหนือ Header */
+    padding: 8px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lang-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-menu a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95em;
+    transition: background 0.2s, color 0.2s;
+}
+
+.lang-menu a.active {
+    background: var(--accent);
+    /* สีม่วงเมื่อเลือก */
+    color: var(--white);
+    font-weight: 700;
+}
+
+.lang-menu a:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+}

@@ -1,0 +1,20 @@
+{
+    "TITLE_LOGIN": "เข้าสู่ระบบ",
+    "LABEL_EMAIL": "อีเมล",
+    "LABEL_PASS": "รหัสผ่าน",
+    "LINK_FORGOT": "ลืมรหัสผ่าน",
+    "BUTTON_LOGIN": "เข้าสู่ระบบ",
+    "LINK_REGISTER_PROMPT": "ยังไม่มีบัญชี?",
+    "LINK_REGISTER_TEXT": "ลงทะเบียน",
+    "CURRENT_LANG_DISPLAY": "ไทย - ไทย",
+    "TITLE_REGISTER": "ลงทะเบียน",
+    "LABEL_USERNAME": "ชื่อผู้ใช้",
+    "LABEL_CONFIRM_PASS": "ยืนยันรหัสผ่าน",
+    "LABEL_PHONE": "เบอร์โทรศัพท์มือถือ",
+    "BUTTON_REGISTER": "ลงทะเบียน",
+    "LINK_LOGIN_PROMPT": "มีบัญชีอยู่แล้ว?",
+    "LINK_LOGIN_TEXT": "เข้าสู่ระบบ",
+    "REGISTER_SUCCESS": "ลงทะเบียนสำเร็จ",
+    "REGISTER_FAIL": "ลงทะเบียนไม่สำเร็จ",
+    "REGISTER_FAIL_MESSAGE": "กรุณากรอกข้อมูลให้ครบถ้วน"
+}

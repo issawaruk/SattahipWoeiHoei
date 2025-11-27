@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Ultimate 3D</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* --- CSS Reset & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            overflow: hidden;
+            background-color: #0a0a0a;
+        }
+
+        /* --- 3D Background Canvas --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+        }
+
+        /* --- Login Container --- */
+        .login-wrapper {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- Glassmorphism Card --- */
+        .login-card {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            padding: 40px;
+            /* เอา overflow: hidden ออก เพื่อให้ error msg ลอยทะลุได้ */
+            /* overflow: hidden; */
+            z-index: 10;
+        }
+
+        /* เอฟเฟกต์แสงสะท้อนบนการ์ด */
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            transform: rotate(30deg);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #00f2fe, #4facfe, #f093fb, #f5576c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
+            /* ปรับขนาด font เล็กน้อยสำหรับคำว่า Reset Password */
+            font-size: 2rem;
+        }
+
+        .login-header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* --- Form Elements --- */
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.07);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .input-label {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+            transition: 0.3s ease;
+            /* ปรับขนาด font ให้เล็กลงเพื่อให้พอดีกับข้อความยาวๆ */
+            font-size: 0.9rem;
+        }
+
+        .input-field:focus~.input-label,
+        .input-field:not(:placeholder-shown)~.input-label {
+            top: 0;
+            font-size: 0.8rem;
+            color: #4facfe;
+            background: #0a0a0a;
+            padding: 0 5px;
+            border-radius: 5px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            background: linear-gradient(45deg, #00f2fe, #4facfe, #f093fb, #f5576c);
+            background-size: 300% 300%;
+            animation: gradientShift 5s ease infinite;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.6);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .extra-links {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .extra-links a {
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .extra-links a:hover {
+            color: #f093fb;
+            text-shadow: 0 0 10px rgba(240, 147, 251, 0.6);
+        }
+
+        /* สไตล์ของข้อความ Error */
+        .error-txt {
+            position: absolute;
+            bottom: -22px;
+            left: 10px;
+            color: #ff3333;
+            font-size: 0.8rem;
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-group.error .error-txt {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .input-group.error .input-field {
+            border-color: #ff3333;
+            box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        }
+
+        .input-group.error .input-field:focus~.input-label,
+        .input-group.error .input-field:not(:placeholder-shown)~.input-label {
+            color: #ff3333;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="canvas-container"></div>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>RESET PASSWORD</h2>
+                <p>Enter your details to receive a reset link.</p>
+            </div>
+            <form id="resetForm" novalidate>
+
+                <div class="input-group" id="account-input-group">
+                    <input type="text" class="input-field" id="account-input" placeholder=" " required
+                        autocomplete="off">
+                    <label for="account-input" class="input-label">Username or Email or Phone Number</label>
+                    <div class="error-txt">กรุณากรอกข้อมูลให้ครบถ้วน</div>
+                </div>
+
+                <button type="submit" class="login-btn">SEND RESET LINK</button>
+
+                <div class="extra-links">
+                    <p>Remember your password? <a href="/auth/login">Back to Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // --- Three.js 3D Animation (เหมือนเดิมทุกประการ) ---
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x000000, 0.0015);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
+        // ใช้ทรง Octahedron เหมือนใน login.html ที่ให้มา
+        const geometry = new THREE.OctahedronGeometry(15, 0);
+
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0x111111, metalness: 0.9, roughness: 0.1, reflectivity: 1,
+            clearcoat: 1.0, clearcoatRoughness: 0.1, emissive: 0x220044, emissiveIntensity: 0.2
+        });
+
+        const torusKnot = new THREE.Mesh(geometry, material);
+        scene.add(torusKnot);
+
+        const frontLight = new THREE.PointLight(0xffffff, 1, 100);
+        frontLight.position.set(0, 10, 20);
+        scene.add(frontLight);
+
+        const light1 = new THREE.PointLight(0x0088ff, 2, 50); scene.add(light1);
+        const light2 = new THREE.PointLight(0xff0088, 2, 50); scene.add(light2);
+        const light3 = new THREE.PointLight(0xffaa00, 1.5, 50); scene.add(light3);
+        const ambientLight = new THREE.AmbientLight(0x404040, 0.5); scene.add(ambientLight);
+
+        camera.position.z = 35;
+
+        let time = 0;
+        const animate = function () {
+            requestAnimationFrame(animate);
+            time += 0.01;
+            torusKnot.rotation.x += 0.003; torusKnot.rotation.y += 0.005; torusKnot.rotation.z += 0.002;
+            light1.position.x = Math.sin(time * 0.7) * 25; light1.position.y = Math.cos(time * 0.5) * 20; light1.position.z = Math.sin(time * 0.3) * 25;
+            light2.position.x = Math.cos(time * 0.3) * 25; light2.position.y = Math.sin(time * 0.5) * 25; light2.position.z = Math.sin(time * 0.7) * 20;
+            light3.position.x = Math.sin(time * 0.5) * 30; light3.position.y = Math.cos(time * 0.8) * 15; light3.position.z = Math.cos(time * 0.5) * 30;
+            camera.position.x += (Math.sin(time * 0.1) * 0.5 - camera.position.x) * 0.05;
+            camera.position.y += (Math.cos(time * 0.1) * 0.5 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+            renderer.render(scene, camera);
+        };
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }, false);
+        animate();
+
+        // --- ส่วนตรวจสอบ Form Validation (ปรับปรุงสำหรับหน้า Reset) ---
+        const form = document.getElementById('resetForm'); // เปลี่ยน ID form
+        const accountInput = document.getElementById('account-input');
+        const accountInputGroup = document.getElementById('account-input-group');
+
+        // ฟังก์ชันแสดง Error (ใช้ตรรกะเดิม 5 วินาทีตามโค้ดที่ให้มา)
+        function showError(inputGroup) {
+            if (inputGroup.errorTimer) clearTimeout(inputGroup.errorTimer);
+            inputGroup.classList.add('error');
+            inputGroup.errorTimer = setTimeout(() => {
+                inputGroup.classList.remove('error');
+                inputGroup.errorTimer = null;
+            }, 5000);
+        }
+
+        // ฟังก์ชันลบ Error
+        function clearError(inputGroup) {
+            if (inputGroup.errorTimer) {
+                clearTimeout(inputGroup.errorTimer);
+                inputGroup.errorTimer = null;
+            }
+            inputGroup.classList.remove('error');
+        }
+
+        // ดักจับตอนกดปุ่ม Submit
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let isValid = true;
+
+            // ตรวจสอบ Input (ว่างหรือไม่)
+            if (accountInput.value.trim() === '') {
+                showError(accountInputGroup);
+                isValid = false;
+            }
+
+            if (isValid) {
+                console.log('Reset Form is valid! Submitting...');
+                // ตรงนี้คือจุดที่จะส่งข้อมูลไป Server เพื่อตรวจสอบและส่งอีเมล
+                alert('ระบบได้ส่งลิงก์สำหรับรีเซ็ตรหัสผ่านไปยังข้อมูลที่ท่านระบุแล้ว (จำลอง)');
+                // form.submit();
+            }
+        });
+
+        // เพิ่ม Event listener สำหรับลบ error เมื่อพิมพ์
+        accountInput.addEventListener('input', () => clearError(accountInputGroup));
+    </script>
+</body>
+
+</html>
