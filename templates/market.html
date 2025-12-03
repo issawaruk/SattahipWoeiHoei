@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตลาดสัตหีบ - Sattahip Woeihoei</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS เดิม (คงไว้เพื่อความต่อเนื่องของ Design) --- */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #38bdf8;
+            --gold: #fbbf24;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--accent), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .menu-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Page Header --- */
+        .page-header {
+            padding: 120px 5% 40px;
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
+        }
+
+        .page-desc {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- Card Style --- */
+        .item-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            margin-bottom: 30px;
+            /* เพิ่มระยะห่างเผื่อมีหลายตลาด */
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        /* ปรับรูปให้ใหญ่เต็มตาสำหรับตลาด */
+        .item-img-large {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        @media(max-width: 768px) {
+            .item-img-large {
+                height: 250px;
+            }
+        }
+
+        .item-content {
+            padding: 30px;
+        }
+
+        .item-tag {
+            font-size: 0.8rem;
+            color: var(--gold);
+            /* สีทองสำหรับของเด็ด */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .item-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .item-info {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .btn-link {
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo"><a href="/">Sattahip Woeihoei</a></div>
+        <ul class="menu-links">
+            <li><a href="/attractions">สถานที่ท่องเที่ยว</a></li>
+            <li><a href="/stay">ที่พัก</a></li>
+            <li><a href="/cafe">คาเฟ่</a></li>
+            <li><a href="/market" style="color: var(--accent);">ตลาด</a></li>
+            <li><a href="/travel">การเดินทาง</a></li>
+        </ul>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-title">ตลาด</h1>
+        <p class="page-desc">แหล่งรวมอาหารทะเลสดๆ จากเรือประมง และสินค้าพื้นเมืองราคาชาวบ้าน</p>
+    </header>
+
+    <section class="container">
+        <div class="item-card">
+            <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80" class="item-img-large"
+                alt="Seafood Market">
+            <div class="item-content">
+                <span class="item-tag"><i class="fas fa-star"></i> MUST VISIT</span>
+                <h3 class="item-title">ตลาดอาหารทะเลแสมสาร</h3>
+                <p class="item-info">
+                    สวรรค์ของคนรักอาหารทะเล! ที่นี่เป็นแหล่งรวมอาหารทะเลสดๆ ที่เพิ่งขึ้นจากเรือประมงใหม่ๆ ทุกวัน
+                    มีทั้งกุ้ง หอย ปู ปลา นานาชนิด ในราคาที่ถูกกว่าท้องตลาดทั่วไป
+                    นอกจากนี้ยังมีบริการ <strong>"รับจ้างนึ่ง-ย่าง"</strong> พร้อมน้ำจิ้มซีฟู้ดรสเด็ด
+                    ให้คุณซื้อไปทานริมทะเลหรือเอากลับบ้านได้ทันที
+                </p>
+                <a href="https://maps.app.goo.gl/jFTqXWxPcsZCVCzk9" class="btn-link">
+                    <i class="fas fa-map-marker-alt"></i> ดูแผนที่
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <script>
+        document.querySelectorAll('.btn-link').forEach(link => {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+        });
+    </script>
+</body>
+
+</html>
