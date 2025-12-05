@@ -8,6 +8,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
+print("STATIC_DIR =", STATIC_DIR)      # ใช้ debug
+print("TEMPLATE_DIR =", TEMPLATE_DIR)  # ใช้ debug
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
