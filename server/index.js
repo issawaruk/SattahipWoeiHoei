@@ -8,41 +8,34 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// LOGIN
-app.get('/auth/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public/templates/login.html'));
-});
-
-// REGISTER
-app.get('/auth/register', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public/templates/register.html'));
-});
-
 // RECOVERY
-app.get('/recovery', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public/templates/recovery.html'));
+app.get('/attractions', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/templates/attractions.html'));
+});
+
+// STAY
+app.get('/stay', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/templates/stay.html'));
+});
+
+// CAFE
+app.get('/cafe', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/templates/cafe.html'));
+});
+
+// MARKET
+app.get('/market', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/templates/market.html'));
+});
+
+// TRAVEL
+app.get('/travel', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/templates/travel.html'));
 });
 
 // HOME
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/templates/index.html'));
-});
-
-// Login API
-app.post('/api/login', (req, res) => {
-    const { email, password } = req.body;
-
-    if (email === 'user@example.com' && password === '12345') {
-        res.status(200).json({
-            success: true,
-            message: 'Login successful'
-        });
-    } else {
-        res.status(401).json({
-            success: false,
-            message: 'Invalid credentials'
-        });
-    }
 });
 
 // Language API
@@ -55,5 +48,4 @@ app.get('/api/lang/:langCode', (req, res) => {
     });
 });
 
-// ❗ สำคัญมาก — ต้องส่งกลับเป็น handler เพื่อใช้กับ Serverless
 module.exports = app;

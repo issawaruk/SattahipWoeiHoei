@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สัตหีบ เว้ยเฮ้ย - หน้าย่อย</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- นำ CSS เดิมมาใช้ (Copy จาก index.html) --- */
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #38bdf8;
+            --gold: #fbbf24;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        /* --- Navbar เดิม --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--accent), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .menu-links a:hover {
+            color: var(--accent);
+        }
+
+        /* --- Style เพิ่มเติมสำหรับหน้าย่อย --- */
+        .page-header {
+            padding: 120px 5% 40px;
+            /* เว้นที่ให้ Navbar */
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 10px;
+        }
+
+        .page-desc {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Grid System มาตรฐาน */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        /* Card Style สำหรับหน้าย่อย */
+        .item-card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .item-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .item-content {
+            padding: 20px;
+        }
+
+        .item-tag {
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .item-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .btn-link {
+            color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo"><a href="/">Sattahip Woeihoei</a></div>
+        <ul class="menu-links">
+            <li><a href="/attractions">สถานที่ท่องเที่ยว</a></li>
+            <li><a href="/stay">ที่พัก</a></li>
+            <li><a href="/cafe">คาเฟ่</a></li>
+            <li><a href="/market">ตลาด</a></li>
+            <li><a href="/travel">การเดินทาง</a></li>
+        </ul>
+    </nav>
+
+    <div id="dynamic-content">
+    </div>
+
+    <header class="page-header">
+        <h1 class="page-title">สถานที่ท่องเที่ยว</h1>
+        <p class="page-desc">รวมพิกัดที่เที่ยวสัตหีบ ทะเลสวย น้ำใส และแหล่งเรียนรู้ทางทหารที่คุณไม่ควรพลาด</p>
+    </header>
+
+    <section class="container">
+        <div class="grid-3">
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80" class="item-img"
+                    alt="หาดนางรำ">
+                <div class="item-content">
+                    <span class="item-tag">ยอดนิยม</span>
+                    <h3 class="item-title">หาดนางรำ - นางรอง</h3>
+                    <p class="item-info">ชายหาดที่สวยที่สุดในสัตหีบ น้ำใสราวกระจก มีร้านอาหารสโมสรทหารเรือให้บริการ</p>
+                    <a href="https://maps.app.goo.gl/imvgE1WhyaWnhuAV9" class="btn-link"><i
+                            class="fas fa-map-marker-alt"></i> ดูแผนที่</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa6rpQ6S1hnVvQQnRafTVlf71mQ0S6ew9Yfw3MfHtER0Ib4FGDjt1.jpg"
+                    class="item-img" alt="เรือหลวง">
+                <div class="item-content">
+                    <span class="item-tag">แลนด์มาร์ค</span>
+                    <h3 class="item-title">เรือหลวงจักรีนฤเบศร</h3>
+                    <p class="item-info">เยี่ยมชมเรือบรรทุกเฮลิคอปเตอร์ที่ยิ่งใหญ่ จอดเทียบท่าที่ท่าเรือจุกเสม็ด</p>
+                    <a href="https://maps.app.goo.gl/87fMUzoiv63kRu6y5" class="btn-link"><i
+                            class="fas fa-map-marker-alt"></i> ดูแผนที่</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1582650625119-3a31f8fa2699?q=80" class="item-img"
+                    alt="เต่าทะเล">
+                <div class="item-content">
+                    <span class="item-tag">เรียนรู้</span>
+                    <h3 class="item-title">ศูนย์อนุรักษ์พันธุ์เต่าทะเล</h3>
+                    <p class="item-info">ชมความน่ารักของน้องเต่า และเรียนรู้วงจรชีวิตสัตว์ทะเลที่หาดูยาก</p>
+                    <a href="https://maps.app.goo.gl/8YFBwTbrLsk24X3MA" class="btn-link"><i
+                            class="fas fa-map-marker-alt"></i> ดูแผนที่</a>
+                </div>
+            </div>
+            <div class="item-card">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80" class="item-img"
+                    alt="หาดทรายแก้ว">
+                <div class="item-content">
+                    <span class="item-tag">พักผ่อน</span>
+                    <h3 class="item-title">หาดทรายแก้ว</h3>
+                    <p class="item-info">หาดทรายขาวละเอียด แวดล้อมด้วยป่าสน ร่มรื่นและเงียบสงบ</p>
+                    <a href="https://maps.app.goo.gl/G8eDXTEpTBsLEdaB8" class="btn-link"><i
+                            class="fas fa-map-marker-alt"></i> ดูแผนที่</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        // เลือกลิงก์ทั้งหมดที่ต้องการให้เปิดแท็บใหม่
+        document.querySelectorAll('.btn-link').forEach(link => {
+            link.setAttribute('target', '_blank');      // เปิดแท็บใหม่
+            link.setAttribute('rel', 'noopener noreferrer'); // ปลอดภัย
+        });
+    </script>
+</body>
+
+</html>
