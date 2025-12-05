@@ -4,35 +4,24 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
 
-app = FastAPI()
-
 # --------------------------
-# PATH ที่แก้ไขแล้ว (ถอยหลัง 1 ชั้นจาก api ไป root)
+# PATH ที่ถูกต้องสำหรับ Vercel
 # --------------------------
-# หาตำแหน่งของไฟล์นี้ (จะได้ .../project/api)
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# ถอยหลัง 1 ขั้นเพื่อไปที่ Root (จะได้ .../project)
-BASE_DIR = os.path.dirname(CURRENT_DIR)
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
-# Debug Path (ดูใน Vercel Logs เพื่อความชัวร์)
-print(f"CURRENT_DIR: {CURRENT_DIR}")
-print(f"BASE_DIR (Root): {BASE_DIR}")
-print(f"Looking for Static at: {STATIC_DIR}")
+print("STATIC_DIR:", STATIC_DIR)
+print("TEMPLATE_DIR:", TEMPLATE_DIR)
 
-# --------------------------
-# VALIDATION
-# --------------------------
+app = FastAPI()
+
+# Validate directories
 if not os.path.isdir(STATIC_DIR):
-    # ปริ้นท์ Directory Listing เพื่อดูว่า Vercel copy ไฟล์มาครบไหม (ช่วย Debug)
-    print(f"Contents of {BASE_DIR}: {os.listdir(BASE_DIR) if os.path.exists(BASE_DIR) else 'Base dir not found'}")
-    raise RuntimeError(f"Static folder not found at: {STATIC_DIR}")
+    raise RuntimeError("Static folder not found: " + STATIC_DIR)
 
 if not os.path.isdir(TEMPLATE_DIR):
-    raise RuntimeError(f"Templates folder not found at: {TEMPLATE_DIR}")
+    raise RuntimeError("Templates folder not found: " + TEMPLATE_DIR)
 
 # Mount
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -64,6 +53,7 @@ def travel(request: Request):
 @app.get("/market", response_class=HTMLResponse)
 def market(request: Request):
     return templates.TemplateResponse("market.html", {"request": request})
+
 
 # Local run only
 if __name__ == "__main__":
