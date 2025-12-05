@@ -5,14 +5,10 @@
             "runtime": "python3.14"
         }
     },
-    "files": [
-        "static/**",
-        "templates/**"
-    ],
     "routes": [
         {
             "src": "/static/(.*)",
-            "dest": "/static/$1"
+            "dest": "/api/static/$1"
         },
         {
             "src": "/(.*)",
