@@ -2,14 +2,22 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import os
 
 app = FastAPI()
 
-# Static files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Path ตัวจริงบน Vercel ต้องอ้างแบบ absolute
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # /api
+
+STATIC_DIR = os.path.join(BASE_DIR, "..", "static")
+TEMPLATE_DIR = os.path.join(BASE_DIR, "..", "templates")
+
+# Static
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 # Templates
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=TEMPLATE_DIR)
+
 
 @app.get("/", response_class=HTMLResponse)
 def index(request: Request):
@@ -39,8 +47,3 @@ def travel(request: Request):
 @app.get("/market", response_class=HTMLResponse)
 def market(request: Request):
     return templates.TemplateResponse("market.html", {"request": request})
-
-# This is important for Vercel
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
