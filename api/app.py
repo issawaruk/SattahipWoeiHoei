@@ -1,21 +1,17 @@
 import os
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
-# หา path ที่ถูกต้องบน Serverless
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
-
 templates = Jinja2Templates(directory=TEMPLATE_DIR)
-
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):

@@ -1,5 +1,14 @@
 {
     "version": 2,
+    "functions": {
+        "api/app.py": {
+            "runtime": "python3.14"
+        }
+    },
+    "files": [
+        "static/**",
+        "templates/**"
+    ],
     "routes": [
         {
             "src": "/static/(.*)",
