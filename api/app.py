@@ -5,10 +5,10 @@ from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
-# ชี้ไปยังโฟลเดอร์ static
+# Static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# ชี้ไปยังโฟลเดอร์ templates
+# Templates
 templates = Jinja2Templates(directory="templates")
 
 
@@ -35,6 +35,7 @@ def stay(request: Request):
 @app.get("/travel", response_class=HTMLResponse)
 def travel(request: Request):
     return templates.TemplateResponse("travel.html", {"request": request})
+
 
 @app.get("/market", response_class=HTMLResponse)
 def market(request: Request):
