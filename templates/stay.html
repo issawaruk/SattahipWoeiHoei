@@ -229,6 +229,70 @@
             color: var(--accent);
             border-color: var(--accent);
         }
+
+        /* --- Dropdown Menu Styling --- */
+        .menu-links li.dropdown-item {
+            position: relative;
+            /* เพื่อให้เมนูย่อยอ้างอิงตำแหน่งจากแม่ */
+            padding-bottom: 10px;
+            /* เพิ่มพื้นที่กันเมนูหายตอนเลื่อนเมาส์ลง */
+            margin-bottom: -10px;
+            /* ดึงกลับให้เท่าเดิม */
+        }
+
+        .dropdown-menu {
+            /* --- เพิ่ม 2 บรรทัดนี้เพื่อลบวงกลมและขอบเกิน --- */
+            list-style: none;
+            padding: 0;
+
+            /* --- โค้ดเดิม --- */
+            position: absolute;
+            top: 100%;
+            left: -20px;
+            width: 180px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            /* padding: 10px 0;  <-- บรรทัดนี้ลบออก หรือเปลี่ยนเป็น padding: 5px 0; แทนก็ได้ถ้าอยากให้มีขอบบนล่าง */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* เมื่อเอาเมาส์ชี้ที่แม่ (.dropdown-item) ให้แสดงลูก (.dropdown-menu) */
+        .menu-links li.dropdown-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* จัดการ Link ใน Dropdown */
+        .dropdown-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .dropdown-menu li:last-child a {
+            border-bottom: none;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+            padding-left: 25px;
+            /* ลูกเล่นขยับข้อความเมื่อชี้ */
+        }
     </style>
 </head>
 
@@ -237,9 +301,32 @@
     <nav>
         <div class="logo"><a href="/">Sattahip Woeihoei</a></div>
         <ul class="menu-links">
-            <li><a href="/attractions">สถานที่ท่องเที่ยว</a></li>
-            <li><a href="/stay" style="color: var(--accent);">ที่พัก</a></li>
-            <li><a href="/cafe">คาเฟ่</a></li>
+            <li class="dropdown-item">
+                <a href="/attractions">สถานที่ท่องเที่ยว <i class="fas fa-chevron-down"
+                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/attractions">ยอดนิยม</a></li>
+                    <li><a href="/attractions">ใกล้ทะเล</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item">
+                <a href="/stay">ที่พัก <i class="fas fa-chevron-down"
+                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/hotel">โรงแรม</a></li>
+                    <li><a href="/hostel">โฮสเทล</a></li>
+                    <li><a href="/apartment">อพาร์ทเม้นท์</a></li>
+                    <li><a href="/village">บ้านพัก/วิลล่า</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item">
+                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i>
+                    <ul class="dropdown-menu">
+                        <li><a href="/cafe">คาเฟ่ใกล้ทะเล</a></li>
+                        <li><a href="/cafe">คาเฟ่สัตว์เลี้ยง</a></li>
+                    </ul>
+                </a>
+            </li>
             <li><a href="/market">ตลาด</a></li>
             <li><a href="/travel">การเดินทาง</a></li>
         </ul>
