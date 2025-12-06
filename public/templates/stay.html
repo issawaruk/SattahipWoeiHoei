@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ที่พักสัตหีบ - Sattahip Woeihoei</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* --- CSS หลัก --- */
+        /* --- 1. Variables & Global --- */
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --accent: #38bdf8;
-            --gold: #fbbf24;
-            --text-main: #f1f5f9;
+            --bg-dark: #020617;
+            --bg-card: rgba(30, 41, 59, 0.4);
+            --accent: #0ea5e9;
+            --accent-glow: rgba(14, 165, 233, 0.6);
+            --gold: #f59e0b;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(15, 23, 42, 0.6);
         }
 
         * {
@@ -32,6 +34,7 @@
             font-family: 'Prompt', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
+            overflow-x: hidden;
         }
 
         a {
@@ -40,7 +43,7 @@
             transition: 0.3s;
         }
 
-        /* --- Navbar --- */
+        /* --- 2. Navbar (ยกมาจาก Index) --- */
         nav {
             position: fixed;
             top: 0;
@@ -50,282 +53,466 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: top 0.3s;
         }
 
-        .logo {
+        .logo a {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, var(--accent), #fff);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--accent-glow);
         }
 
         .menu-links {
             display: flex;
-            gap: 30px;
-            list-style: none;
+            gap: 35px;
+            align-items: center;
+            list-style: none !important;
+            /* ย้ำอีกครั้ง */
+        }
+
+        .menu-links a {
+            font-weight: 300;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 5px 0;
         }
 
         .menu-links a:hover {
             color: var(--accent);
         }
 
-        /* --- Page Header --- */
-        .page-header {
-            padding: 120px 5% 40px;
-            background: linear-gradient(to bottom, #0f172a, #1e293b);
-            text-align: center;
-        }
-
-        .page-title {
-            font-size: 3rem;
-            font-family: 'Playfair Display', serif;
-            margin-bottom: 10px;
-        }
-
-        .page-desc {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* --- Category Navigation --- */
-        .category-nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .cat-btn {
-            padding: 10px 20px;
-            border: 1px solid var(--accent);
-            border-radius: 50px;
-            color: var(--accent);
-            font-size: 0.9rem;
-        }
-
-        .cat-btn:hover,
-        .cat-btn.active {
-            background: var(--accent);
-            color: var(--bg-dark);
-        }
-
-        /* --- Layout --- */
-        .container {
-            padding: 40px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-group {
-            margin-bottom: 80px;
-            padding-top: 80px;
-            margin-top: -80px;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            border-left: 5px solid var(--gold);
-            padding-left: 15px;
-            color: var(--text-main);
-        }
-
-        .sub-section-title {
-            font-size: 1.4rem;
-            margin: 20px 0;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sub-section-title i {
-            color: var(--accent);
-        }
-
-        /* --- Grid & Cards --- */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .item-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-        }
-
-        .item-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .item-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background-color: #334155;
-        }
-
-        .item-content {
-            padding: 20px;
-        }
-
-        .item-tag {
-            font-size: 0.7rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .item-title {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .item-price {
-            font-size: 0.9rem;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-
-        /* --- Action Buttons (Updated) --- */
-        .card-actions {
-            display: flex;
-            gap: 15px;
-            /* เว้นระยะห่างระหว่างปุ่ม */
-            margin-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 15px;
-        }
-
-        .btn-link {
-            color: var(--gold);
-            /* เปลี่ยนเป็นสีทองทั้งคู่ */
-            font-size: 0.85rem;
-            border-bottom: 1px solid transparent;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .btn-link:hover {
-            color: var(--accent);
-            border-color: var(--accent);
-        }
-
-        /* --- Dropdown Menu Styling --- */
+        /* Dropdown */
         .menu-links li.dropdown-item {
             position: relative;
-            /* เพื่อให้เมนูย่อยอ้างอิงตำแหน่งจากแม่ */
-            padding-bottom: 10px;
-            /* เพิ่มพื้นที่กันเมนูหายตอนเลื่อนเมาส์ลง */
-            margin-bottom: -10px;
-            /* ดึงกลับให้เท่าเดิม */
         }
 
         .dropdown-menu {
-            /* --- เพิ่ม 2 บรรทัดนี้เพื่อลบวงกลมและขอบเกิน --- */
-            list-style: none;
-            padding: 0;
-
-            /* --- โค้ดเดิม --- */
             position: absolute;
             top: 100%;
-            left: -20px;
-            width: 180px;
+            left: -15px;
+            width: 200px;
             background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            /* padding: 10px 0;  <-- บรรทัดนี้ลบออก หรือเปลี่ยนเป็น padding: 5px 0; แทนก็ได้ถ้าอยากให้มีขอบบนล่าง */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(15px);
+            transition: 0.3s;
             display: flex;
             flex-direction: column;
-            gap: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            list-style: none !important;
+            /* ย้ำเพื่อลบวงกลมใน Dropdown */
         }
 
-        /* เมื่อเอาเมาส์ชี้ที่แม่ (.dropdown-item) ให้แสดงลูก (.dropdown-menu) */
         .menu-links li.dropdown-item:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
 
-        /* จัดการ Link ใน Dropdown */
         .dropdown-menu li a {
+            padding: 10px 15px;
             display: block;
-            padding: 12px 20px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            transition: 0.2s;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .dropdown-menu li:last-child a {
-            border-bottom: none;
         }
 
         .dropdown-menu li a:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(14, 165, 233, 0.1);
             color: var(--accent);
-            padding-left: 25px;
-            /* ลูกเล่นขยับข้อความเมื่อชี้ */
+            padding-left: 20px;
+        }
+
+        /* เพิ่มบรรทัดนี้เพื่อความชัวร์ที่สุด */
+        .menu-links li,
+        .dropdown-menu li {
+            list-style-type: none !important;
+        }
+
+        /* --- 3. Hero Section (Parallax & Premium) --- */
+        .page-header {
+            height: 60vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            /* Background Image */
+            background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* Parallax Effect */
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.3), var(--bg-dark));
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            margin-top: 50px;
+            padding: 0 20px;
+            animation: fadeUp 1s ease-out;
+        }
+
+        .page-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .page-title {
+            font-size: 4.5rem;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 15px;
+            background: linear-gradient(to bottom right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .page-desc {
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+            font-size: 1.15rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- 4. Sticky Filter Bar --- */
+        .sticky-filters {
+            position: sticky;
+            top: 80px;
+            /* Adjust based on navbar height */
+            z-index: 900;
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-border);
+            padding: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 24px;
+            border-radius: 50px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: rgba(14, 165, 233, 0.15);
+            color: var(--accent);
+            border-color: rgba(14, 165, 233, 0.3);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+        }
+
+        .filter-btn i {
+            margin-right: 8px;
+        }
+
+        /* --- 5. Content Layout --- */
+        .container {
+            padding: 60px 5%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .section-group {
+            margin-bottom: 100px;
+            scroll-margin-top: 160px;
+            /* For smooth scroll offset */
+        }
+
+        .section-header-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .section-subtitle {
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-count {
+            background: var(--glass-border);
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        /* --- 6. Premium Cards --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .item-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            group: card;
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .img-wrapper {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .item-card:hover .item-img {
+            transform: scale(1.1);
+        }
+
+        .overlay-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(245, 158, 11, 0.9);
+            color: #000;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .item-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item-tag {
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .item-title {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .item-location {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .item-price-row {
+            margin-top: auto;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding-top: 15px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .price-info span {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .price-info strong {
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+
+        .btn-book {
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        .item-card:hover .btn-book {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Adjust */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+
+            .sticky-filters {
+                top: 70px;
+                padding: 10px 5%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .section-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+
+        ul {
+            list-style: none !important;
+            /* ลบจุดออกจากทุก List */
+            padding: 0;
+            margin: 0;
         }
     </style>
 </head>
 
 <body>
-
     <nav>
-        <div class="logo"><a href="/">Sattahip Woeihoei</a></div>
+        <div class="logo"><a href="/">Sattahip WOEIHOEI</a></div>
         <ul class="menu-links">
             <li class="dropdown-item">
                 <a href="/attractions">สถานที่ท่องเที่ยว <i class="fas fa-chevron-down"
-                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                        style="font-size: 0.6rem; opacity:0.5;"></i></a>
                 <ul class="dropdown-menu">
                     <li><a href="/attractions">ยอดนิยม</a></li>
                     <li><a href="/attractions">ใกล้ทะเล</a></li>
                 </ul>
             </li>
             <li class="dropdown-item">
-                <a href="/stay">ที่พัก <i class="fas fa-chevron-down"
-                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <a href="/stay">ที่พัก <i class="fas fa-chevron-down" style="font-size: 0.6rem; opacity:0.5;"></i></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/hotel">โรงแรม</a></li>
-                    <li><a href="/hostel">โฮสเทล</a></li>
-                    <li><a href="/apartment">อพาร์ทเม้นท์</a></li>
-                    <li><a href="/village">บ้านพัก/วิลล่า</a></li>
+                    <li><a href="#hotel">โรงแรม</a></li>
+                    <li><a href="#hostel">โฮสเทล</a></li>
+                    <li><a href="#apartment">อพาร์ทเม้นท์</a></li>
+                    <li><a href="#villa">บ้านพัก/วิลล่า</a></li>
                 </ul>
             </li>
             <li class="dropdown-item">
-                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i>
-                    <ul class="dropdown-menu">
-                        <li><a href="/cafe">คาเฟ่ใกล้ทะเล</a></li>
-                        <li><a href="/cafe">คาเฟ่สัตว์เลี้ยง</a></li>
-                    </ul>
-                </a>
+                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down" style="font-size: 0.6rem; opacity:0.5;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/cafe">คาเฟ่ใกล้ทะเล</a></li>
+                    <li><a href="/cafe">คาเฟ่สัตว์เลี้ยง</a></li>
+                </ul>
             </li>
             <li><a href="/market">ตลาด</a></li>
             <li><a href="/travel">การเดินทาง</a></li>
@@ -333,282 +520,267 @@
     </nav>
 
     <header class="page-header">
-        <h1 class="page-title">ที่พัก</h1>
-        <p class="page-desc">รวมที่พักสัตหีบ ตอบโจทย์ทุกไลฟ์สไตล์</p>
-
-        <div class="category-nav">
-            <a href="#hotel" class="cat-btn">โรงแรม</a>
-            <a href="#hostel" class="cat-btn">โฮสเทล</a>
-            <a href="#apartment" class="cat-btn">อพาร์ทเม้นท์</a>
-            <a href="#villa" class="cat-btn">บ้านพัก/วิลล่า</a>
+        <div class="header-content">
+            <span class="page-tag">Staycation</span>
+            <h1 class="page-title">พักผ่อนที่สัตหีบ</h1>
+            <p class="page-desc">รวบรวมที่พักหลากสไตล์ ตอบโจทย์ทุกการพักผ่อน <br>ตั้งแต่โฮสเทลอบอุ่น
+                จนถึงวิลล่าหรูติดทะเล</p>
         </div>
     </header>
 
+    <div class="sticky-filters">
+        <a href="#hotel" class="filter-btn"><i class="fas fa-hotel"></i> โรงแรม</a>
+        <a href="#hostel" class="filter-btn"><i class="fas fa-bed"></i> โฮสเทล</a>
+        <a href="#apartment" class="filter-btn"><i class="far fa-building"></i> อพาร์ทเม้นท์</a>
+        <a href="#villa" class="filter-btn"><i class="fas fa-home"></i> วิลล่า</a>
+    </div>
+
     <div class="container">
 
-        <section id="hotel" class="section-group">
-            <h2 class="section-title"><i class="fas fa-hotel"></i> โรงแรม</h2>
-
-            <h3 class="sub-section-title"><i class="fas fa-map-marker-alt"></i> ใกล้เคียง (ตัวเมือง/ตลาดสัตหีบ)</h3>
-            <div class="grid-3">
-                <article class="item-card">
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80" alt="Sattahip 9"
-                        class="item-img">
-                    <div class="item-content">
-                        <span class="item-tag">City Hotel</span>
-                        <h4 class="item-title">Sattahip 9 Boutique Hotel</h4>
-                        <p class="item-price">฿800 - 1,200 / คืน</p>
-                        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">
-                            ใจกลางเมือง ดีไซน์ทันสมัย สะอาด ใกล้ตลาดและ 7-11 เดินทางสะดวกมาก
-                        </p>
-                        <div class="card-actions">
-                            <a href="https://www.google.com/maps/search/?api=1&query=Sattahip+9+Boutique+Hotel"
-                                class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-                <article class="item-card">
-                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80" alt="Akard Private"
-                        class="item-img">
-                    <div class="item-content">
-                        <span class="item-tag">Minimal Hotel</span>
-                        <h4 class="item-title">Akard Private (อากาศ ไพรเวท)</h4>
-                        <p class="item-price">฿900 - 1,300 / คืน</p>
-                        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">
-                            ที่พักเล็กๆ สไตล์มินิมอล อบอุ่น เงียบสงบ แต่อยู่ใกล้แหล่งของกิน
-                        </p>
-                        <div class="card-actions">
-                            <a href="https://www.google.com/maps/search/?api=1&query=Akard+Private+Sattahip"
-                                class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
+        <section id="hotel" class="section-group reveal">
+            <div class="section-header-row">
+                <div>
+                    <span class="section-subtitle">Comfort & Style</span>
+                    <h2 class="section-title">โรงแรมแนะนำ</h2>
+                </div>
+                <div class="section-count">4 แห่ง</div>
             </div>
 
-            <h3 class="sub-section-title"><i class="fas fa-star"></i> น่าสนใจ (ติดทะเล/วิวสวย)</h3>
             <div class="grid-3">
                 <article class="item-card">
-                    <img src="https://images.unsplash.com/photo-1439066615861-d1fb8ac3dd78?q=80" alt="Kept Bangsaray"
-                        class="item-img">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80" class="item-img">
+                        <span class="overlay-badge">City Center</span>
+                        <span class="rating-badge">9.2</span>
+                    </div>
                     <div class="item-content">
-                        <span class="item-tag">Seaview Resort</span>
-                        <h4 class="item-title">Kept Bangsaray Hotel Pattaya</h4>
-                        <p class="item-price">฿3,500+ / คืน</p>
-                        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">
-                            ที่พักสุดฮิตฟีลมัลดีฟส์ ยื่นลงไปในทะเล ห้องพักสวย มุมถ่ายรูปเพียบ (บางเสร่)
-                        </p>
-                        <div class="card-actions">
-                            <a href="https://www.google.com/maps/search/?api=1&query=Kept+Bangsaray+Hotel+Pattaya"
-                                class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-meta"><span class="item-tag">Boutique</span></div>
+                        <h4 class="item-title">Sattahip 9 Boutique</h4>
+                        <div class="item-location"><i class="fas fa-map-marker-alt"></i> ใจกลางเมือง ใกล้ตลาด</div>
+                        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">ดีไซน์โมเดิร์น
+                            ห้องใหม่สะอาด เดินทางสะดวกมาก</p>
+
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>เริ่มต้น</span>
+                                <strong>฿800</strong>
+                            </div>
+                            <a href="#" class="btn-book">ดูห้องพัก</a>
                         </div>
                     </div>
                 </article>
+
                 <article class="item-card">
-                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80" alt="Warasin Resort"
-                        class="item-img">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80" class="item-img">
+                        <span class="overlay-badge">Minimal</span>
+                        <span class="rating-badge">8.8</span>
+                    </div>
                     <div class="item-content">
-                        <span class="item-tag">Hillside Resort</span>
-                        <h4 class="item-title">Warasin Resort (วราสินธ์)</h4>
-                        <p class="item-price">฿1,500 - 2,500 / คืน</p>
-                        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">
-                            รีสอร์ทโซนแสมสาร ตั้งบนเนินเขา เห็นวิวทะเลมุมสูง บรรยากาศร่มรื่น
-                        </p>
-                        <div class="card-actions">
-                            <a href="https://www.google.com/maps/search/?api=1&query=Warasin+Resort+Sattahip"
-                                class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-meta"><span class="item-tag">Private</span></div>
+                        <h4 class="item-title">Akard Private</h4>
+                        <div class="item-location"><i class="fas fa-map-marker-alt"></i> ซอยสัตหีบสุขุมวิท</div>
+                        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">ที่พักเล็กๆ
+                            อบอุ่นเหมือนอยู่บ้าน เงียบสงบ</p>
+
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>เริ่มต้น</span>
+                                <strong>฿1,200</strong>
+                            </div>
+                            <a href="#" class="btn-book">ดูห้องพัก</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="item-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1439066615861-d1fb8ac3dd78?q=80" class="item-img">
+                        <span class="overlay-badge">Seaview</span>
+                        <span class="rating-badge">9.5</span>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-meta"><span class="item-tag">Resort</span></div>
+                        <h4 class="item-title">Kept Bangsaray</h4>
+                        <div class="item-location"><i class="fas fa-water"></i> บางเสร่ ติดทะเล</div>
+                        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">
+                            ฟีลมัลดีฟส์เมืองไทย ยื่นลงทะเล มุมถ่ายรูปเพียบ</p>
+
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>เริ่มต้น</span>
+                                <strong>฿3,500</strong>
+                            </div>
+                            <a href="#" class="btn-book">ดูห้องพัก</a>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
 
-        <hr style="border-color: rgba(255,255,255,0.1);">
+        <section id="hostel" class="section-group reveal">
+            <div class="section-header-row">
+                <div>
+                    <span class="section-subtitle">Budget Friendly</span>
+                    <h2 class="section-title">โฮสเทล</h2>
+                </div>
+                <div class="section-count">2 แห่ง</div>
+            </div>
 
-        <section id="hostel" class="section-group">
-            <h2 class="section-title"><i class="fas fa-bed"></i> โฮสเทล</h2>
-
-            <h3 class="sub-section-title"><i class="fas fa-map-marker-alt"></i> ใกล้เคียง</h3>
             <div class="grid-3">
                 <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Backpacker+Station" alt="Hostel"
-                        class="item-img">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?q=80&w=1000"
+                            class="item-img" style="filter: grayscale(20%);">
+                        <span class="overlay-badge">Backpacker</span>
+                    </div>
                     <div class="item-content">
-                        <span class="item-tag">Hostel</span>
+                        <div class="item-meta"><span class="item-tag">Dormitory</span></div>
                         <h4 class="item-title">Backpacker Station</h4>
-                        <p class="item-price">฿350 / เตียง</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-location"><i class="fas fa-map-marker-alt"></i> ใกล้คิวรถตู้</div>
+                        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">เตียงนุ่ม
+                            แอร์เย็น เพื่อนเยอะ เหมาะกับสายลุย</p>
+
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>ต่อคน</span>
+                                <strong>฿350</strong>
+                            </div>
+                            <a href="#" class="btn-book">จองเลย</a>
                         </div>
                     </div>
                 </article>
-            </div>
 
-            <h3 class="sub-section-title"><i class="fas fa-star"></i> น่าสนใจ</h3>
-            <div class="grid-3">
                 <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Chic+Hostel" alt="Chic Hostel" class="item-img">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?q=80&w=1000"
+                            class="item-img" style="filter: grayscale(20%);">
+                        <span class="overlay-badge">Chic Style</span>
+                    </div>
                     <div class="item-content">
-                        <span class="item-tag">Boutique Hostel</span>
+                        <div class="item-meta"><span class="item-tag">Poshtel</span></div>
                         <h4 class="item-title">The Chic Sleep</h4>
-                        <p class="item-price">฿500 / เตียง</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-location"><i class="fas fa-map-marker-alt"></i> ตลาดสัตหีบ</div>
+                        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">โฮสเทลเก๋ๆ
+                            มีคาเฟ่ในตัว สะอาด ปลอดภัย</p>
+
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>ต่อคน</span>
+                                <strong>฿500</strong>
+                            </div>
+                            <a href="#" class="btn-book">จองเลย</a>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
 
-        <hr style="border-color: rgba(255,255,255,0.1);">
+        <section id="apartment" class="section-group reveal">
+            <div class="section-header-row">
+                <div>
+                    <span class="section-subtitle">Long Stay</span>
+                    <h2 class="section-title">อพาร์ทเม้นท์</h2>
+                </div>
+            </div>
 
-        <section id="apartment" class="section-group">
-            <h2 class="section-title"><i class="fas fa-building"></i> อพาร์ทเม้นท์</h2>
-
-            <h3 class="sub-section-title"><i class="fas fa-map-marker-alt"></i> ใกล้เคียง (รายเดือน/รายวัน)</h3>
             <div class="grid-3">
-                <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Sattahip+Mansion" alt="Mansion" class="item-img">
+                <article class="item-card" style="border-left: 3px solid var(--accent);">
                     <div class="item-content">
-                        <span class="item-tag">Apartment</span>
+                        <div class="item-meta"><span class="item-tag">รายเดือน</span></div>
                         <h4 class="item-title">Sattahip Mansion</h4>
-                        <p class="item-price">฿3,500 / เดือน</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-location"><i class="fas fa-map-marker-alt"></i> กม.1</div>
+                        <ul
+                            style="font-size:0.85rem; color:#94a3b8; margin-bottom:20px; list-style: disc; padding-left:20px;">
+                            <li>มีที่จอดรถ</li>
+                            <li>ระบบคีย์การ์ด</li>
+                            <li>ฟรี Wi-Fi</li>
+                        </ul>
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>เดือนละ</span>
+                                <strong>฿3,500</strong>
+                            </div>
+                            <a href="#" class="btn-book"><i class="fas fa-phone"></i> โทร</a>
                         </div>
                     </div>
                 </article>
-                <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Budget+Room" alt="Budget Room" class="item-img">
-                    <div class="item-content">
-                        <span class="item-tag">Apartment</span>
-                        <h4 class="item-title">Safe House Apartment</h4>
-                        <p class="item-price">฿3,000 / เดือน</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            </div>
 
-            <h3 class="sub-section-title"><i class="fas fa-star"></i> น่าสนใจ (เซอร์วิสอพาร์ทเม้นท์)</h3>
-            <div class="grid-3">
-                <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Modern+Living" alt="Modern Living"
-                        class="item-img">
+                <article class="item-card" style="border-left: 3px solid var(--gold);">
                     <div class="item-content">
-                        <span class="item-tag">Service Apt.</span>
-                        <h4 class="item-title">Modern Living Space</h4>
-                        <p class="item-price">฿8,000 / เดือน</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-meta"><span class="item-tag">Service Apt.</span></div>
+                        <h4 class="item-title">Modern Living</h4>
+                        <div class="item-location"><i class="fas fa-map-marker-alt"></i> ใกล้ฐานทัพเรือ</div>
+                        <ul
+                            style="font-size:0.85rem; color:#94a3b8; margin-bottom:20px; list-style: disc; padding-left:20px;">
+                            <li>เฟอร์นิเจอร์ครบ</li>
+                            <li>ทำความสะอาดฟรี</li>
+                            <li>ฟิตเนส</li>
+                        </ul>
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>เดือนละ</span>
+                                <strong>฿8,000</strong>
+                            </div>
+                            <a href="#" class="btn-book"><i class="fas fa-phone"></i> โทร</a>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
 
-        <hr style="border-color: rgba(255,255,255,0.1);">
-
-        <section id="villa" class="section-group">
-            <h2 class="section-title"><i class="fas fa-home"></i> บ้านพัก / วิลล่า</h2>
-
-            <h3 class="sub-section-title"><i class="fas fa-map-marker-alt"></i> ใกล้เคียง (สำหรับหมู่คณะ)</h3>
-            <div class="grid-3">
-                <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Family+House" alt="Family House"
-                        class="item-img">
-                    <div class="item-content">
-                        <span class="item-tag">Entire House</span>
-                        <h4 class="item-title">Baan Sattahip Family</h4>
-                        <p class="item-price">฿3,500 / คืน (10 ท่าน)</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
+        <section id="villa" class="section-group reveal">
+            <div class="section-header-row">
+                <div>
+                    <span class="section-subtitle">Private Party</span>
+                    <h2 class="section-title">บ้านพัก / วิลล่า</h2>
+                </div>
+                <div class="section-count">Hot!</div>
             </div>
 
-            <h3 class="sub-section-title"><i class="fas fa-star"></i> น่าสนใจ (พูลวิลล่า)</h3>
             <div class="grid-3">
                 <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Pool+Villa" alt="Pool Villa" class="item-img">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?q=80&w=1000"
+                            class="item-img">
+                        <span class="overlay-badge">Pool Villa</span>
+                    </div>
                     <div class="item-content">
-                        <span class="item-tag">Pool Villa</span>
+                        <div class="item-meta"><span class="item-tag">Family</span></div>
                         <h4 class="item-title">The Ocean Pool Villa</h4>
-                        <p class="item-price">฿5,900 / คืน</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-location"><i class="fas fa-swimmer"></i> สระส่วนตัว</div>
+                        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">3 ห้องนอน 4
+                            ห้องน้ำ คาราโอเกะ ปิ้งย่างได้</p>
+
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>เหมาหลัง</span>
+                                <strong>฿5,900</strong>
+                            </div>
+                            <a href="#" class="btn-book">ดูรายละเอียด</a>
                         </div>
                     </div>
                 </article>
+
                 <article class="item-card">
-                    <img src="https://via.placeholder.com/400x300?text=Party+Villa" alt="Party Villa" class="item-img">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1000"
+                            class="item-img">
+                        <span class="overlay-badge">Party</span>
+                    </div>
                     <div class="item-content">
-                        <span class="item-tag">Pool Villa</span>
+                        <div class="item-meta"><span class="item-tag">Group</span></div>
                         <h4 class="item-title">Sattahip Party House</h4>
-                        <p class="item-price">฿4,500 / คืน</p>
-                        <div class="card-actions">
-                            <a href="#" class="btn-link">
-                                <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                            </a>
-                            <a href="#" class="btn-link">
-                                ดูรายละเอียด <i class="fas fa-info-circle"></i>
-                            </a>
+                        <div class="item-location"><i class="fas fa-music"></i> เสียงดังได้</div>
+                        <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:15px; font-weight:300;">บ้านหลังใหญ่
+                            รับได้ 15 คน เหมาะกับแก๊งเพื่อน</p>
+
+                        <div class="item-price-row">
+                            <div class="price-info">
+                                <span>เหมาหลัง</span>
+                                <strong>฿4,500</strong>
+                            </div>
+                            <a href="#" class="btn-book">ดูรายละเอียด</a>
                         </div>
                     </div>
                 </article>
@@ -618,10 +790,55 @@
     </div>
 
     <script>
-        // Script สำหรับเปิดลิงก์ในแท็บใหม่
-        document.querySelectorAll('.btn-link').forEach(link => {
-            link.setAttribute('target', '_blank');
-            link.setAttribute('rel', 'noopener noreferrer');
+        // 1. Reveal on Scroll (เหมือน Index)
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // 2. Active Filter Button Script
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.filter-btn');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = '#' + section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 3. Navbar logic
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.style.top = '-100px';
+                document.querySelector('.sticky-filters').style.top = '0'; // ปรับ Filter ให้ขึ้นไปแทนที่
+            } else {
+                navbar.style.top = '0';
+                document.querySelector('.sticky-filters').style.top = '80px'; // กลับมาตำแหน่งเดิม
+            }
+            lastScrollTop = scrollTop;
         });
     </script>
 </body>

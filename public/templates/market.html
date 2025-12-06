@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ตลาดสัตหีบ - Sattahip Woeihoei</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* --- CSS เดิม (คงไว้เพื่อความต่อเนื่องของ Design) --- */
+        /* --- 1. Variables & Global (Pattern from stay.html) --- */
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --accent: #38bdf8;
-            --gold: #fbbf24;
-            --text-main: #f1f5f9;
+            --bg-dark: #020617;
+            --bg-card: rgba(30, 41, 59, 0.4);
+            --accent: #0ea5e9;
+            --accent-glow: rgba(14, 165, 233, 0.6);
+            --gold: #f59e0b;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(15, 23, 42, 0.6);
         }
 
         * {
@@ -31,6 +33,7 @@
             font-family: 'Prompt', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
+            overflow-x: hidden;
         }
 
         a {
@@ -49,120 +52,283 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: top 0.3s;
         }
 
-        .logo {
+        .logo a {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, var(--accent), #fff);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--accent-glow);
         }
 
         .menu-links {
             display: flex;
-            gap: 30px;
+            gap: 35px;
+            align-items: center;
             list-style: none;
+        }
+
+        .menu-links a {
+            font-weight: 300;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 5px 0;
         }
 
         .menu-links a:hover {
             color: var(--accent);
         }
 
-        /* --- Page Header --- */
+        .menu-links li.dropdown-item {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -15px;
+            width: 200px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            list-style: none;
+        }
+
+        .menu-links li.dropdown-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li a {
+            padding: 10px 15px;
+            display: block;
+            border-bottom: none;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--accent);
+            padding-left: 20px;
+        }
+
+        /* --- Hero Section (Parallax) --- */
         .page-header {
-            padding: 120px 5% 40px;
-            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            height: 50vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            overflow: hidden;
+            /* Background Image สำหรับตลาด */
+            background-image: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.4), var(--bg-dark));
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            margin-top: 60px;
+            padding: 0 20px;
+            animation: fadeUp 1s ease-out;
         }
 
         .page-title {
-            font-size: 3rem;
+            font-size: 4rem;
             font-family: 'Playfair Display', serif;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            background: linear-gradient(to bottom right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .page-desc {
-            color: var(--text-muted);
+            color: #cbd5e1;
             max-width: 600px;
             margin: 0 auto;
+            font-weight: 300;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
 
-        .container {
-            padding: 40px 5%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
 
-        /* --- Card Style --- */
-        .item-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-            margin-bottom: 30px;
-            /* เพิ่มระยะห่างเผื่อมีหลายตลาด */
-        }
-
-        .item-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        /* ปรับรูปให้ใหญ่เต็มตาสำหรับตลาด */
-        .item-img-large {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-        }
-
-        @media(max-width: 768px) {
-            .item-img-large {
-                height: 250px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        .item-content {
-            padding: 30px;
+        /* --- Content Layout --- */
+        .container {
+            padding: 60px 5%;
+            max-width: 1280px;
+            margin: 0 auto;
         }
 
-        .item-tag {
-            font-size: 0.8rem;
+        /* --- Premium Cards (Adapted for Market - Wider) --- */
+        .item-card-wide {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 40px;
+        }
+
+        .item-card-wide:hover {
+            transform: translateY(-8px);
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .img-wrapper-wide {
+            position: relative;
+            height: 350px;
+            /* สูงขึ้นสำหรับบัตรรูปแบบกว้าง */
+            overflow: hidden;
+        }
+
+        .item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .item-card-wide:hover .item-img {
+            transform: scale(1.05);
+        }
+
+        .overlay-badge.gold {
+            border-color: var(--gold);
             color: var(--gold);
-            /* สีทองสำหรับของเด็ด */
+        }
+
+        /* (ใช้ class ร่วมกับไฟล์อื่นได้) */
+        .overlay-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            border: 1px solid rgba(14, 165, 233, 0.3);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 10px;
-            display: block;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+
+        .item-content {
+            padding: 35px;
         }
 
         .item-title {
             font-size: 1.8rem;
             margin-bottom: 15px;
+            color: #fff;
             font-weight: 500;
+            font-family: 'Playfair Display', serif;
         }
 
         .item-info {
-            color: var(--text-muted);
+            color: #94a3b8;
             font-size: 1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-weight: 300;
         }
 
-        .btn-link {
-            color: var(--gold);
-            font-size: 0.9rem;
+        .item-info strong {
+            color: var(--text-main);
             font-weight: 500;
         }
 
-        .btn-link:hover {
-            text-decoration: underline;
+        .btn-book {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 1rem;
+            color: #fff;
+            transition: 0.3s;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-book:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+
+            .img-wrapper-wide {
+                height: 250px;
+            }
         }
     </style>
 </head>
@@ -172,25 +338,52 @@
     <nav>
         <div class="logo"><a href="/">Sattahip Woeihoei</a></div>
         <ul class="menu-links">
-            <li><a href="/attractions">สถานที่ท่องเที่ยว</a></li>
-            <li><a href="/stay">ที่พัก</a></li>
-            <li><a href="/cafe">คาเฟ่</a></li>
-            <li><a href="/market" style="color: var(--accent);">ตลาด</a></li>
+            <li class="dropdown-item">
+                <a href="/attractions">สถานที่ท่องเที่ยว <i class="fas fa-chevron-down"
+                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/attractions">ยอดนิยม</a></li>
+                    <li><a href="/attractions">ใกล้ทะเล</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item">
+                <a href="/stay">ที่พัก <i class="fas fa-chevron-down"
+                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/stay#hotel">โรงแรม</a></li>
+                    <li><a href="/stay#hostel">โฮสเทล</a></li>
+                    <li><a href="/stay#apartment">อพาร์ทเม้นท์</a></li>
+                    <li><a href="/stay#villa">บ้านพัก/วิลล่า</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item">
+                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i>
+                    <ul class="dropdown-menu">
+                        <li><a href="/cafe">คาเฟ่ใกล้ทะเล</a></li>
+                        <li><a href="/cafe">คาเฟ่สัตว์เลี้ยง</a></li>
+                    </ul>
+                </a>
+            </li>
+            <li><a href="/market">ตลาด</a></li>
             <li><a href="/travel">การเดินทาง</a></li>
         </ul>
     </nav>
 
     <header class="page-header">
-        <h1 class="page-title">ตลาด</h1>
-        <p class="page-desc">แหล่งรวมอาหารทะเลสดๆ จากเรือประมง และสินค้าพื้นเมืองราคาชาวบ้าน</p>
+        <div class="header-content">
+            <h1 class="page-title">ตลาด</h1>
+            <p class="page-desc">แหล่งรวมอาหารทะเลสดๆ จากเรือประมง และสินค้าพื้นเมืองราคาชาวบ้าน</p>
+        </div>
     </header>
 
-    <section class="container">
-        <div class="item-card">
-            <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80" class="item-img-large"
-                alt="Seafood Market">
+    <div class="container">
+        <article class="item-card-wide reveal">
+            <div class="img-wrapper-wide">
+                <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=2000" class="item-img"
+                    alt="Seafood Market">
+                <span class="overlay-badge gold"><i class="fas fa-star"></i> MUST VISIT</span>
+            </div>
             <div class="item-content">
-                <span class="item-tag"><i class="fas fa-star"></i> MUST VISIT</span>
                 <h3 class="item-title">ตลาดอาหารทะเลแสมสาร</h3>
                 <p class="item-info">
                     สวรรค์ของคนรักอาหารทะเล! ที่นี่เป็นแหล่งรวมอาหารทะเลสดๆ ที่เพิ่งขึ้นจากเรือประมงใหม่ๆ ทุกวัน
@@ -198,16 +391,46 @@
                     นอกจากนี้ยังมีบริการ <strong>"รับจ้างนึ่ง-ย่าง"</strong> พร้อมน้ำจิ้มซีฟู้ดรสเด็ด
                     ให้คุณซื้อไปทานริมทะเลหรือเอากลับบ้านได้ทันที
                 </p>
-                <a href="https://maps.app.goo.gl/jFTqXWxPcsZCVCzk9" class="btn-link">
-                    <i class="fas fa-map-marker-alt"></i> ดูแผนที่
-                </a>
+                <div>
+                    <a href="https://maps.app.goo.gl/jFTqXWxPcsZCVCzk9" class="btn-book">
+                        <i class="fas fa-map-marker-alt"></i> ดูแผนที่
+                    </a>
+                </div>
             </div>
-        </div>
-
-    </section>
+        </article>
+    </div>
 
     <script>
-        document.querySelectorAll('.btn-link').forEach(link => {
+        // Reveal on Scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 50;
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Trigger on load
+
+        // Navbar Logic
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.style.top = '-100px';
+            } else {
+                navbar.style.top = '0';
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // Open links in new tab
+        document.querySelectorAll('.btn-book').forEach(link => {
             link.setAttribute('target', '_blank');
             link.setAttribute('rel', 'noopener noreferrer');
         });
