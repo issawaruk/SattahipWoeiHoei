@@ -491,17 +491,94 @@
             }
         }
 
-        /* Responsive */
+        /* --- ส่วน CSS สำหรับ Hamburger Menu --- */
+        /* ซ่อนปุ่มเมนูและปุ่มปิดในหน้าจอปกติ (Desktop) */
+        .hamburger-menu,
+        .close-menu-btn {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        /* Responsive: มือถือ */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 3rem;
             }
 
-            .menu-links {
-                display: none;
+            /* แสดงปุ่ม Hamburger */
+            .hamburger-menu {
+                display: block;
+                z-index: 1001;
+                /* อยู่เหนือทุกอย่าง */
             }
 
-            /* Add Hamburger Logic Here (Simplified for demo) */
+            /* ปรับแต่งเมนูให้เป็นแบบ Full Screen Overlay */
+            .menu-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                /* ซ่อนไว้ทางขวาก่อน */
+                width: 100%;
+                height: 100vh;
+                background: rgba(2, 6, 23, 0.98);
+                /* พื้นหลังทึบเกือบ 100% */
+                backdrop-filter: blur(15px);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+                z-index: 2000;
+                padding-bottom: 50px;
+            }
+
+            /* คลาสนี้จะถูกเติมด้วย JS เพื่อเลื่อนเมนูออกมา */
+            .menu-links.active {
+                right: 0;
+            }
+
+            /* ปุ่มปิด (X) */
+            .close-menu-btn {
+                display: block;
+                position: absolute;
+                top: 30px;
+                right: 30px;
+                font-size: 2rem;
+                color: var(--accent);
+                transition: 0.3s;
+            }
+
+            .close-menu-btn:hover {
+                transform: rotate(90deg);
+            }
+
+            /* ปรับขนาดตัวหนังสือเมนูในมือถือให้ใหญ่ขึ้น */
+            .menu-links a {
+                font-size: 1.5rem;
+                font-weight: 500;
+            }
+
+            /* ซ่อน Dropdown แบบ Hover เดิม แล้วโชว์เมนูย่อยเรียงลงมาเลย (เพื่อให้กดง่ายในมือถือ) */
+            .dropdown-menu {
+                position: static;
+                width: auto;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                display: none;
+                /* ซ่อนก่อน ถ้าอยากให้โชว์ตลอดให้ลบบรรทัดนี้ */
+                text-align: center;
+                padding-top: 10px;
+            }
+
+            /* ถ้าต้องการให้เห็นเมนูย่อยเลย ให้แก้ display: none ด้านบนเป็น block หรือใช้วิธีกดเพื่อเปิด */
+            /* ในที่นี้เพื่อให้ไม่รก ผมจะให้โชว์เมนูหลักก่อน */
         }
     </style>
 </head>
@@ -509,7 +586,14 @@
 <body>
     <nav>
         <div class="logo"><a href="/">สัตหีบ เว้ยเฮ้ย</a></div>
+
+        <div class="hamburger-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+
         <ul class="menu-links">
+            <li class="close-menu-btn"><i class="fas fa-times"></i></li>
+
             <li class="dropdown-item">
                 <a href="/attractions">สถานที่ท่องเที่ยว <i class="fas fa-chevron-down"
                         style="font-size: 0.6rem; opacity:0.5;"></i></a>
@@ -721,6 +805,31 @@
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
+            });
+        });
+
+        // --- 4. Mobile Menu Logic ---
+        const hamburger = document.querySelector('.hamburger-menu');
+        const navMenu = document.querySelector('.menu-links');
+        const closeBtn = document.querySelector('.close-menu-btn');
+        const menuItems = document.querySelectorAll('.menu-links a'); // ลิงก์ทั้งหมดในเมนู
+
+        // เปิดเมนู
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.add('active');
+        });
+
+        // ปิดเมนู (เมื่อกดปุ่ม X)
+        closeBtn.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+        });
+
+        // ปิดเมนูอัตโนมัติ เมื่อกดที่ลิงก์ใดๆ (เพื่อให้เห็นเนื้อหา)
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // เช็คว่าถ้าไม่ใช่การกดเพื่อเปิด Dropdown (ถ้ามี) ให้ปิดเมนู
+                // ในที่นี้สั่งปิดเลยเพื่อความง่าย
+                navMenu.classList.remove('active');
             });
         });
     </script>
