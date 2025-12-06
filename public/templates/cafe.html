@@ -318,9 +318,215 @@
             transform: translateY(0);
         }
 
+        /* Animation Classes */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- ส่วน CSS สำหรับ Hamburger Menu --- */
+        /* ซ่อนปุ่มเมนูและปุ่มปิดในหน้าจอปกติ (Desktop) */
+        .hamburger-menu,
+        .close-menu-btn {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        /* --- Apple Style Mobile Menu (Updated) --- */
+
+        /* ซ่อนใน Desktop */
+        .mobile-nav-wrapper {
+            display: none;
+        }
+
         @media (max-width: 768px) {
-            .page-title {
-                font-size: 3rem;
+
+            /* ซ่อนเมนู Desktop */
+            .desktop-only {
+                display: none !important;
+            }
+
+            /* ปุ่ม Hamburger (3 ขีด) */
+            .hamburger-menu {
+                display: block;
+                z-index: 1001;
+                font-size: 1.5rem;
+            }
+
+            /* กล่องเมนูหลัก (Full Screen) */
+            .mobile-nav-wrapper {
+                display: block;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: #0b0f19;
+                /* สีพื้นหลังเข้ม (Dark Theme) */
+                z-index: 2000;
+                transform: translateY(-100%);
+                /* ซ่อนไว้ข้างบน */
+                transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+                overflow: hidden;
+            }
+
+            .mobile-nav-wrapper.open {
+                transform: translateY(0);
+            }
+
+            /* --- Top Bar (< และ X) --- */
+            .mobile-top-bar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 20px;
+                z-index: 3000;
+            }
+
+            /* ปุ่มปิด (X) ขวาบน */
+            .close-menu-btn {
+                font-size: 1.8rem;
+                color: #9ca3af;
+                /* สีเทาอ่อน */
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: 0.2s;
+            }
+
+            .close-menu-btn:hover {
+                color: #fff;
+            }
+
+            /* ปุ่มย้อนกลับ (<) ซ้ายบน */
+            .mobile-back-btn {
+                font-size: 1.5rem;
+                color: #9ca3af;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                opacity: 0;
+                /* ซ่อนก่อน */
+                pointer-events: none;
+                /* ห้ามกดถ้าซ่อนอยู่ */
+                transition: 0.3s;
+            }
+
+            /* แสดงปุ่มย้อนกลับเมื่อมี Class 'show' */
+            .mobile-back-btn.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            /* --- Panels & Typography --- */
+            .mobile-panels {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                padding-top: 60px;
+                /* เว้นที่ให้ Top Bar */
+            }
+
+            .panel {
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                height: calc(100% - 60px);
+                padding: 0 30px;
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.4s ease;
+                overflow-y: auto;
+            }
+
+            /* การจัดการ Slide Animation */
+            .panel.main-panel {
+                transform: translateX(0);
+            }
+
+            .panel.sub-panel {
+                transform: translateX(100%);
+            }
+
+            /* Active States */
+            .panel.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(0);
+            }
+
+            .panel.slide-left {
+                opacity: 0;
+                transform: translateX(-20%);
+            }
+
+            /* Typography (ตัวหนังสือ) */
+
+            /* หัวข้อหน้าหลัก (เช่น "เมนู") */
+            .mobile-main-header {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 30px;
+            }
+
+            /* หัวข้อหน้าย่อย (เช่น "ที่พัก") - ตัวใหญ่ หนา */
+            .mobile-cat-header {
+                font-size: 2.5rem;
+                /* ตัวใหญ่สะใจตามแบบ Apple */
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 25px;
+                line-height: 1.2;
+            }
+
+            /* รายการเมนู */
+            .menu-list {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                /* ระยะห่างระหว่างบรรทัด */
+            }
+
+            .m-item {
+                font-size: 1.4rem;
+                /* ขนาดตัวอักษรรายการ */
+                font-weight: 500;
+                color: #e2e8f0;
+                /* สีขาวอมเทานิดๆ */
+                text-decoration: none;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 5px 0;
+                transition: color 0.2s;
+            }
+
+            .m-item:hover {
+                color: #0ea5e9;
+                /* สีฟ้าเวลาแตะ */
+            }
+
+            /* ลูกศรขวา > */
+            .arrow-icon {
+                font-size: 0.9rem;
+                color: #64748b;
             }
         }
     </style>
@@ -330,20 +536,24 @@
 
     <nav>
         <div class="logo"><a href="/">สัตหีบ เว้ยเฮ้ย</a></div>
-        <ul class="menu-links">
+
+        <div class="hamburger-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+
+        <ul class="menu-links desktop-only">
             <li class="dropdown-item">
                 <a href="/attractions">สถานที่ท่องเที่ยว <i class="fas fa-chevron-down"
-                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                        style="font-size: 0.6rem; opacity:0.5;"></i></a>
                 <ul class="dropdown-menu">
-                    <li><a href="/attractions">ทั้งหมด</a></li>
                     <li><a href="/attractions#popular">ยอดนิยม</a></li>
                     <li><a href="/attractions#near-sea">ใกล้ทะเล</a></li>
                 </ul>
             </li>
             <li class="dropdown-item">
-                <a href="/stay">ที่พัก <i class="fas fa-chevron-down"
-                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <a href="/stay">ที่พัก <i class="fas fa-chevron-down" style="font-size: 0.6rem; opacity:0.5;"></i></a>
                 <ul class="dropdown-menu">
+                    <li><a href="/stay">ทั้งหมด</a></li>
                     <li><a href="/stay#hotel">โรงแรม</a></li>
                     <li><a href="/stay#hostel">โฮสเทล</a></li>
                     <li><a href="/stay#apartment">อพาร์ทเม้นท์</a></li>
@@ -351,16 +561,76 @@
                 </ul>
             </li>
             <li class="dropdown-item">
-                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i>
-                    <ul class="dropdown-menu">
-                        <li><a href="/cafe">คาเฟ่ใกล้ทะเล</a></li>
-                        <li><a href="/cafe">คาเฟ่สัตว์เลี้ยง</a></li>
-                    </ul>
-                </a>
+                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down" style="font-size: 0.6rem; opacity:0.5;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/cafe#near-sea">คาเฟ่ใกล้ทะเล</a></li>
+                    <li><a href="/cafe#pet-cafe">คาเฟ่สัตว์เลี้ยง</a></li>
+                </ul>
             </li>
             <li><a href="/market">ตลาด</a></li>
             <li><a href="/travel">การเดินทาง</a></li>
         </ul>
+
+        <div class="mobile-nav-wrapper">
+
+            <div class="mobile-top-bar">
+                <div class="mobile-back-btn" onclick="closeSubmenu()">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="close-menu-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+
+            <div class="mobile-panels">
+
+                <div class="panel main-panel active">
+                    <div class="menu-list">
+                        <a class="m-item has-arrow" onclick="openSubmenu('sub-attractions')">
+                            สถานที่ท่องเที่ยว
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
+                        <a class="m-item has-arrow" onclick="openSubmenu('sub-stay')">
+                            ที่พัก
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
+                        <a class="m-item has-arrow" onclick="openSubmenu('sub-cafe')">
+                            คาเฟ่
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
+                        <a href="/market" class="m-item">ตลาด</a>
+                        <a href="/travel" class="m-item">การเดินทาง</a>
+                    </div>
+                </div>
+
+                <div class="panel sub-panel" id="sub-attractions">
+                    <div class="menu-list">
+                        <a href="/attractions" class="m-item">ทั้งหมด</a>
+                        <a href="/attractions#popular" class="m-item">ยอดนิยม</a>
+                        <a href="/attractions#near-sea" class="m-item">ใกล้ทะเล</a>
+                    </div>
+                </div>
+
+                <div class="panel sub-panel" id="sub-stay">
+                    <div class="menu-list">
+                        <a href="/stay" class="m-item">ทั้งหมด</a>
+                        <a href="/stay#hotel" class="m-item">โรงแรม</a>
+                        <a href="/stay#hostel" class="m-item">โฮสเทล</a>
+                        <a href="/stay#apartment" class="m-item">อพาร์ทเม้นท์</a>
+                        <a href="/stay#villa" class="m-item">บ้านพัก/วิลล่า</a>
+                    </div>
+                </div>
+
+                <div class="panel sub-panel" id="sub-cafe">
+                    <div class="menu-list">
+                        <a href="/cafe" class="m-item">ทั้งหมด</a>
+                        <a href="/cafe#near-sea" class="m-item">คาเฟ่ใกล้ทะเล</a>
+                        <a href="/cafe#pet-cafe" class="m-item">คาเฟ่สัตว์เลี้ยง</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </nav>
 
     <header class="page-header">
@@ -442,6 +712,53 @@
             link.setAttribute('target', '_blank');
             link.setAttribute('rel', 'noopener noreferrer');
         });
+
+        // --- Mobile Menu Logic (Apple Style) ---
+        const hamburger = document.querySelector('.hamburger-menu');
+        const mobileWrapper = document.querySelector('.mobile-nav-wrapper');
+        const closeBtn = document.querySelector('.close-menu-btn');
+        const backBtn = document.querySelector('.mobile-back-btn');
+
+        if (hamburger) {
+            // 1. เปิดเมนูหลัก
+            hamburger.addEventListener('click', () => {
+                mobileWrapper.classList.add('open');
+            });
+
+            // 2. ปิดเมนูทั้งหมด
+            closeBtn.addEventListener('click', () => {
+                mobileWrapper.classList.remove('open');
+                setTimeout(() => { closeSubmenu(); }, 500);
+            });
+        }
+
+        // 3. เข้าสู่เมนูย่อย
+        function openSubmenu(subId) {
+            const mainPanel = document.querySelector('.main-panel');
+            mainPanel.classList.remove('active');
+            mainPanel.classList.add('slide-left');
+
+            const targetSub = document.getElementById(subId);
+            if (targetSub) {
+                targetSub.classList.add('active');
+            }
+            backBtn.classList.add('show');
+        }
+
+        // 4. ย้อนกลับไปเมนูหลัก
+        function closeSubmenu() {
+            document.querySelectorAll('.sub-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            const mainPanel = document.querySelector('.main-panel');
+            if (mainPanel) {
+                mainPanel.classList.remove('slide-left');
+                mainPanel.classList.add('active');
+            }
+
+            if (backBtn) backBtn.classList.remove('show');
+        }
     </script>
 </body>
 
