@@ -501,34 +501,28 @@
             color: #fff;
         }
 
-        /* --- CSS สำหรับ Hamburger Menu แบบ Apple Style --- */
+        /* --- Apple Style Mobile Menu (Updated) --- */
 
-        /* ซ่อน Mobile Wrapper ไว้ก่อนในหน้าจอ Desktop */
+        /* ซ่อนใน Desktop */
         .mobile-nav-wrapper {
             display: none;
         }
 
-        .hamburger-menu {
-            display: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: #fff;
-        }
-
-        /* Responsive: มือถือ */
         @media (max-width: 768px) {
 
-            /* ซ่อนเมนู Desktop เดิม */
+            /* ซ่อนเมนู Desktop */
             .desktop-only {
                 display: none !important;
             }
 
+            /* ปุ่ม Hamburger (3 ขีด) */
             .hamburger-menu {
                 display: block;
                 z-index: 1001;
+                font-size: 1.5rem;
             }
 
-            /* โครงสร้าง Mobile Wrapper (พื้นหลังสีดำเต็มจอ) */
+            /* กล่องเมนูหลัก (Full Screen) */
             .mobile-nav-wrapper {
                 display: block;
                 position: fixed;
@@ -536,148 +530,168 @@
                 left: 0;
                 width: 100%;
                 height: 100vh;
-                background: #000000;
-                /* สีดำสนิทแบบ Apple หรือใช้ var(--bg-dark) */
+                background: #0b0f19;
+                /* สีพื้นหลังเข้ม (Dark Theme) */
                 z-index: 2000;
                 transform: translateY(-100%);
-                /* ซ่อนไว้ข้างบนก่อน */
-                transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+                /* ซ่อนไว้ข้างบน */
+                transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
                 overflow: hidden;
-                /* ซ่อนส่วนเกินเวลาสไลด์ */
             }
 
-            /* เมื่อกดเปิดเมนู */
             .mobile-nav-wrapper.open {
                 transform: translateY(0);
             }
 
-            /* ส่วนหัว (ปุ่มปิด X) */
-            .mobile-header {
-                padding: 20px 30px;
+            /* --- Top Bar (< และ X) --- */
+            .mobile-top-bar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
                 display: flex;
-                justify-content: flex-end;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 20px;
+                z-index: 3000;
             }
 
+            /* ปุ่มปิด (X) ขวาบน */
             .close-menu-btn {
-                font-size: 2rem;
-                color: #86868b;
+                font-size: 1.8rem;
+                color: #9ca3af;
+                /* สีเทาอ่อน */
                 cursor: pointer;
-                transition: 0.3s;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: 0.2s;
             }
 
             .close-menu-btn:hover {
                 color: #fff;
             }
 
-            /* พื้นที่แสดงผล Panel */
+            /* ปุ่มย้อนกลับ (<) ซ้ายบน */
+            .mobile-back-btn {
+                font-size: 1.5rem;
+                color: #9ca3af;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                opacity: 0;
+                /* ซ่อนก่อน */
+                pointer-events: none;
+                /* ห้ามกดถ้าซ่อนอยู่ */
+                transition: 0.3s;
+            }
+
+            /* แสดงปุ่มย้อนกลับเมื่อมี Class 'show' */
+            .mobile-back-btn.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            /* --- Panels & Typography --- */
             .mobile-panels {
                 position: relative;
                 width: 100%;
-                height: calc(100vh - 80px);
+                height: 100%;
+                padding-top: 60px;
+                /* เว้นที่ให้ Top Bar */
             }
 
-            /* สไตล์ของแต่ละหน้า (Panel) */
             .panel {
                 position: absolute;
-                top: 0;
+                top: 60px;
                 left: 0;
                 width: 100%;
-                height: 100%;
-                padding: 0 40px;
+                height: calc(100% - 60px);
+                padding: 0 30px;
                 opacity: 0;
                 visibility: hidden;
-                transition: all 0.4s ease;
+                transition: 0.4s ease;
                 overflow-y: auto;
-                /* ให้เลื่อนดูได้ถ้าเมนูยาว */
             }
 
-            /* Main Panel (หน้าแรก) */
+            /* การจัดการ Slide Animation */
             .panel.main-panel {
                 transform: translateX(0);
             }
 
-            /* Sub Panel (หน้าย่อย) - เริ่มต้นอยู่ทางขวา */
             .panel.sub-panel {
                 transform: translateX(100%);
             }
 
-            /* Logic การสไลด์ (สำคัญ!) */
-            /* ถ้า Main Active: อยู่ตรงกลาง */
-            .panel.main-panel.active {
+            /* Active States */
+            .panel.active {
                 opacity: 1;
                 visibility: visible;
                 transform: translateX(0);
             }
 
-            /* ถ้า Main ถูกดันออก (เมื่อเปิด sub): เลื่อนไปซ้าย */
-            .panel.main-panel.slide-left {
-                opacity: 0.5;
-                transform: translateX(-30%);
-                pointer-events: none;
+            .panel.slide-left {
+                opacity: 0;
+                transform: translateX(-20%);
             }
 
-            /* ถ้า Sub Active: เลื่อนจากขวามาตรงกลาง */
-            .panel.sub-panel.active {
-                opacity: 1;
-                visibility: visible;
-                transform: translateX(0);
-                z-index: 10;
-            }
+            /* Typography (ตัวหนังสือ) */
 
-            /* --- Typography & Elements Style (แต่งให้เหมือน Apple) --- */
-            .mobile-title {
-                font-size: 0.9rem;
-                color: #86868b;
-                margin-bottom: 20px;
-                font-weight: 400;
-            }
-
-            .mobile-title-sub {
-                font-size: 1.8rem;
-                font-weight: 600;
+            /* หัวข้อหน้าหลัก (เช่น "เมนู") */
+            .mobile-main-header {
+                font-size: 2rem;
+                font-weight: 700;
                 color: #fff;
-                margin: 10px 0 30px 0;
+                margin-bottom: 30px;
             }
 
-            .m-link {
+            /* หัวข้อหน้าย่อย (เช่น "ที่พัก") - ตัวใหญ่ หนา */
+            .mobile-cat-header {
+                font-size: 2.5rem;
+                /* ตัวใหญ่สะใจตามแบบ Apple */
+                font-weight: 700;
+                color: #fff;
+                margin-bottom: 25px;
+                line-height: 1.2;
+            }
+
+            /* รายการเมนู */
+            .menu-list {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                /* ระยะห่างระหว่างบรรทัด */
+            }
+
+            .m-item {
+                font-size: 1.4rem;
+                /* ขนาดตัวอักษรรายการ */
+                font-weight: 500;
+                color: #e2e8f0;
+                /* สีขาวอมเทานิดๆ */
+                text-decoration: none;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                font-size: 1.6rem;
-                /* ตัวใหญ่ๆ แบบรูปที่ 2 */
-                font-weight: 600;
-                color: #f5f5f7;
-                padding: 10px 0;
-                text-decoration: none;
-                transition: 0.2s;
+                padding: 5px 0;
+                transition: color 0.2s;
             }
 
-            .m-link:hover {
-                color: var(--accent);
+            .m-item:hover {
+                color: #0ea5e9;
+                /* สีฟ้าเวลาแตะ */
             }
 
             /* ลูกศรขวา > */
-            .m-link i {
-                font-size: 1rem;
-                color: #86868b;
-            }
-
-            /* ปุ่ม Back < */
-            .back-btn {
-                display: inline-block;
-                font-size: 1rem;
-                color: #86868b;
-                margin-bottom: 20px;
-                cursor: pointer;
-            }
-
-            .back-btn:hover {
-                color: #fff;
-            }
-
-            .back-btn i {
-                margin-right: 5px;
-                font-size: 0.8rem;
+            .arrow-icon {
+                font-size: 0.9rem;
+                color: #64748b;
             }
         }
     </style>
@@ -723,56 +737,61 @@
 
         <div class="mobile-nav-wrapper">
 
-            <div class="mobile-header">
-                <div class="close-menu-btn"><i class="fas fa-times"></i></div>
+            <div class="mobile-top-bar">
+                <div class="mobile-back-btn" onclick="closeSubmenu()">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+
+                <div class="close-menu-btn">
+                    <i class="fas fa-times"></i>
+                </div>
             </div>
 
             <div class="mobile-panels">
 
                 <div class="panel main-panel active">
-
-                    <a class="m-link has-sub" onclick="openSubmenu('sub-attractions')">
-                        สถานที่ท่องเที่ยว <i class="fas fa-chevron-right"></i>
-                    </a>
-
-                    <a class="m-link has-sub" onclick="openSubmenu('sub-stay')">
-                        ที่พัก <i class="fas fa-chevron-right"></i>
-                    </a>
-
-                    <a class="m-link has-sub" onclick="openSubmenu('sub-cafe')">
-                        คาเฟ่ <i class="fas fa-chevron-right"></i>
-                    </a>
-
-                    <a href="/market" class="m-link">ตลาด</a>
-                    <a href="/travel" class="m-link">การเดินทาง</a>
+                    <div class="menu-list">
+                        <a class="m-item has-arrow" onclick="openSubmenu('sub-attractions', 'สถานที่ท่องเที่ยว')">
+                            สถานที่ท่องเที่ยว
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
+                        <a class="m-item has-arrow" onclick="openSubmenu('sub-stay', 'ที่พัก')">
+                            ที่พัก
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
+                        <a class="m-item has-arrow" onclick="openSubmenu('sub-cafe', 'คาเฟ่')">
+                            คาเฟ่
+                            <i class="fas fa-chevron-right arrow-icon"></i>
+                        </a>
+                        <a href="/market" class="m-item">ตลาด</a>
+                        <a href="/travel" class="m-item">การเดินทาง</a>
+                    </div>
                 </div>
 
                 <div class="panel sub-panel" id="sub-attractions">
-                    <a class="back-btn" onclick="closeSubmenu()">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                    <a href="/attractions" class="m-link">ทั้งหมด</a>
-                    <a href="/attractions#popular" class="m-link">ยอดนิยม</a>
-                    <a href="/attractions#near-sea" class="m-link">ใกล้ทะเล</a>
+                    <div class="menu-list">
+                        <a href="/attractions" class="m-item">ทั้งหมด</a>
+                        <a href="/attractions#popular" class="m-item">ยอดนิยม</a>
+                        <a href="/attractions#near-sea" class="m-item">ใกล้ทะเล</a>
+                    </div>
                 </div>
 
                 <div class="panel sub-panel" id="sub-stay">
-                    <a class="back-btn" onclick="closeSubmenu()">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                    <a href="/stay" class="m-link">ทั้งหมด</a> <a href="/stay#hotel" class="m-link">โรงแรม</a>
-                    <a href="/stay#hostel" class="m-link">โฮสเทล</a>
-                    <a href="/stay#apartment" class="m-link">อพาร์ทเม้นท์</a>
-                    <a href="/stay#villa" class="m-link">บ้านพัก/วิลล่า</a>
+                    <div class="menu-list">
+                        <a href="/stay" class="m-item">ทั้งหมด</a>
+                        <a href="/stay#hotel" class="m-item">โรงแรม</a>
+                        <a href="/stay#hostel" class="m-item">โฮสเทล</a>
+                        <a href="/stay#apartment" class="m-item">อพาร์ทเม้นท์</a>
+                        <a href="/stay#villa" class="m-item">บ้านพัก/วิลล่า</a>
+                    </div>
                 </div>
 
                 <div class="panel sub-panel" id="sub-cafe">
-                    <a class="back-btn" onclick="closeSubmenu()">
-                        <i class="fas fa-chevron-left"></i>
-                    </a>
-                    <a href="/cafe" class="m-link">ทั้งหมด</a>
-                    <a href="/cafe#near-sea" class="m-link">คาเฟ่ใกล้ทะเล</a>
-                    <a href="/cafe#pet-cafe" class="m-link">คาเฟ่สัตว์เลี้ยง</a>
+                    <div class="menu-list">
+                        <a href="/cafe" class="m-item">ทั้งหมด</a>
+                        <a href="/cafe#near-sea" class="m-item">คาเฟ่ใกล้ทะเล</a>
+                        <a href="/cafe#pet-cafe" class="m-item">คาเฟ่สัตว์เลี้ยง</a>
+                    </div>
                 </div>
 
             </div>
@@ -964,46 +983,57 @@
             });
         });
 
-        // --- Mobile Menu Logic (Apple Style) ---
+        // --- Mobile Menu Logic (Apple Style Perfected) ---
         const hamburger = document.querySelector('.hamburger-menu');
         const mobileWrapper = document.querySelector('.mobile-nav-wrapper');
         const closeBtn = document.querySelector('.close-menu-btn');
+        const backBtn = document.querySelector('.mobile-back-btn');
 
-        // 1. เปิดเมนูใหญ่ (กด 3 ขีด)
+        // 1. เปิดเมนูหลัก
         hamburger.addEventListener('click', () => {
             mobileWrapper.classList.add('open');
         });
 
-        // 2. ปิดเมนู (กด X)
+        // 2. ปิดเมนูทั้งหมด (Reset ทุกอย่าง)
         closeBtn.addEventListener('click', () => {
             mobileWrapper.classList.remove('open');
-            // รอ Animation จบแล้วรีเซ็ตหน้ากลับไปเป็นหน้าแรก
+            // รออนิเมชั่นจบแล้วค่อยรีเซ็ตกลับหน้าแรก
             setTimeout(() => {
                 closeSubmenu();
             }, 500);
         });
 
-        // 3. ฟังก์ชันเปิด Submenu (เลื่อนหน้าหลักไปซ้าย หน้าลูกเข้ามา)
+        // 3. เข้าสู่เมนูย่อย (Slide In)
         function openSubmenu(subId) {
-            // ดันหน้าหลักไปซ้าย
-            document.querySelector('.main-panel').classList.remove('active');
-            document.querySelector('.main-panel').classList.add('slide-left');
+            // 3.1 ดันหน้าหลักไปทางซ้าย
+            const mainPanel = document.querySelector('.main-panel');
+            mainPanel.classList.remove('active');
+            mainPanel.classList.add('slide-left');
 
-            // ดึงหน้าลูกที่เลือกเข้ามา
-            document.getElementById(subId).classList.add('active');
+            // 3.2 ดึงหน้าย่อยเข้ามา
+            const targetSub = document.getElementById(subId);
+            if (targetSub) {
+                targetSub.classList.add('active');
+            }
+
+            // 3.3 แสดงปุ่มย้อนกลับ (<)
+            backBtn.classList.add('show');
         }
 
-        // 4. ฟังก์ชันปิด Submenu (กด Back หรือ กด X)
+        // 4. ย้อนกลับไปเมนูหลัก (Back)
         function closeSubmenu() {
-            // เอาหน้าลูกออก
+            // 4.1 ซ่อนหน้าย่อยทั้งหมด
             document.querySelectorAll('.sub-panel').forEach(panel => {
                 panel.classList.remove('active');
             });
 
-            // ดึงหน้าหลักกลับมาตรงกลาง
+            // 4.2 ดึงหน้าหลักกลับมา
             const mainPanel = document.querySelector('.main-panel');
             mainPanel.classList.remove('slide-left');
             mainPanel.classList.add('active');
+
+            // 4.3 ซ่อนปุ่มย้อนกลับ (<)
+            backBtn.classList.remove('show');
         }
     </script>
 </body>
