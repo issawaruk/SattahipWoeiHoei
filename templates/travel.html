@@ -4,21 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>สัตหีบ เว้ยเฮ้ย - หน้าย่อย</title>
+    <title>สัตหีบ เว้ยเฮ้ย - การเดินทาง</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* --- นำ CSS เดิมมาใช้ (Copy จาก index.html) --- */
+        /* --- 1. Variables & Global (Pattern from stay.html) --- */
         :root {
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --accent: #38bdf8;
-            --gold: #fbbf24;
-            --text-main: #f1f5f9;
+            --bg-dark: #020617;
+            --bg-card: rgba(30, 41, 59, 0.4);
+            --accent: #0ea5e9;
+            --accent-glow: rgba(14, 165, 233, 0.6);
+            --gold: #f59e0b;
+            --text-main: #f8fafc;
             --text-muted: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(15, 23, 42, 0.6);
         }
 
         * {
@@ -31,6 +33,8 @@
             font-family: 'Prompt', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         a {
@@ -39,7 +43,7 @@
             transition: 0.3s;
         }
 
-        /* --- Navbar เดิม --- */
+        /* --- Navbar --- */
         nav {
             position: fixed;
             top: 0;
@@ -49,177 +53,406 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transition: top 0.3s;
         }
 
-        .logo {
+        .logo a {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
-            font-weight: 600;
-            background: linear-gradient(45deg, var(--accent), #fff);
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--accent-glow);
         }
 
         .menu-links {
             display: flex;
-            gap: 30px;
+            gap: 35px;
+            align-items: center;
             list-style: none;
+        }
+
+        .menu-links a {
+            font-weight: 300;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 5px 0;
         }
 
         .menu-links a:hover {
             color: var(--accent);
         }
 
-        /* --- Style เพิ่มเติมสำหรับหน้าย่อย --- */
+        .menu-links li.dropdown-item {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -15px;
+            width: 200px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            list-style: none;
+        }
+
+        .menu-links li.dropdown-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu li a {
+            padding: 10px 15px;
+            display: block;
+            border-bottom: none;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--accent);
+            padding-left: 20px;
+        }
+
+        /* --- Hero Section (Parallax) --- */
         .page-header {
-            padding: 120px 5% 40px;
-            /* เว้นที่ให้ Navbar */
-            background: linear-gradient(to bottom, #0f172a, #1e293b);
+            height: 50vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            overflow: hidden;
+            /* ใช้รูปภาพแทน Gradient เดิมเพื่อให้เข้ากับ Theme */
+            background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.5), var(--bg-dark));
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            margin-top: 60px;
+            padding: 0 20px;
+            animation: fadeUp 1s ease-out;
         }
 
         .page-title {
-            font-size: 3rem;
+            font-size: 4rem;
             font-family: 'Playfair Display', serif;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            background: linear-gradient(to bottom right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .page-desc {
-            color: var(--text-muted);
+            color: #cbd5e1;
             max-width: 600px;
             margin: 0 auto;
+            font-weight: 300;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
 
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- Content Layout --- */
         .container {
-            padding: 40px 5%;
-            max-width: 1200px;
+            padding: 60px 5%;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
-        /* Grid System มาตรฐาน */
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+        /* --- Premium Info Box (Adapted from stay.html card style) --- */
+        .info-box {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
-        /* Card Style สำหรับหน้าย่อย */
-        .item-card {
-            background: var(--bg-card);
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Glow effect on hover */
+        .info-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            opacity: 0;
+            transition: 0.4s;
+            pointer-events: none;
+        }
+
+        .info-box:hover {
+            transform: translateY(-8px);
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .info-box:hover::after {
+            opacity: 1;
+        }
+
+        /* Accent Colors for different modes */
+        .accent-car {
+            --box-accent: var(--accent);
+        }
+
+        .accent-van {
+            --box-accent: var(--gold);
+        }
+
+        .accent-train {
+            --box-accent: #f472b6;
+        }
+
+        .box-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 500;
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .box-title i {
+            font-size: 1.4rem;
+            color: var(--box-accent);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 50%;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             transition: 0.3s;
         }
 
-        .item-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+        .info-box:hover .box-title i {
+            background: var(--box-accent);
+            color: #000;
+            border-color: var(--box-accent);
+            box-shadow: 0 0 20px var(--box-accent);
         }
 
-        .item-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .item-content {
-            padding: 20px;
-        }
-
-        .item-tag {
-            font-size: 0.7rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        .item-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-        .item-info {
+        .box-desc {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            line-height: 1.8;
+            font-weight: 300;
+            font-size: 1.1rem;
+            padding-left: 65px;
+            /* Align with title text */
         }
 
-        .btn-link {
-            color: var(--gold);
-            font-size: 0.9rem;
+        strong {
+            color: var(--text-main);
             font-weight: 500;
         }
 
-        .btn-link:hover {
-            text-decoration: underline;
+        ul.custom-list {
+            margin-top: 15px;
+            list-style: none;
+            /* Remove default bullets */
+        }
+
+        ul.custom-list li {
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        /* Custom Bullet using accent color */
+        ul.custom-list li::before {
+            content: '•';
+            color: var(--box-accent);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 3rem;
+            }
+
+            .box-desc {
+                padding-left: 0;
+            }
+
+            .box-title i {
+                margin-bottom: 10px;
+            }
+
+            .box-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
         }
     </style>
 </head>
 
 <body>
-
     <nav>
-        <div class="logo"><a href="/">Sattahip Woeihoei</a></div>
+        <div class="logo"><a href="/">Sattahip WOEIHOEI</a></div>
         <ul class="menu-links">
-            <li><a href="/attractions">สถานที่ท่องเที่ยว</a></li>
-            <li><a href="/stay">ที่พัก</a></li>
-            <li><a href="/cafe">คาเฟ่</a></li>
+            <li class="dropdown-item">
+                <a href="/attractions">สถานที่ท่องเที่ยว <i class="fas fa-chevron-down"
+                        style="font-size: 0.6rem; opacity:0.5;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/attractions">ยอดนิยม</a></li>
+                    <li><a href="/attractions">ใกล้ทะเล</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item">
+                <a href="/stay">ที่พัก <i class="fas fa-chevron-down" style="font-size: 0.6rem; opacity:0.5;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/stay#hotel">โรงแรม</a></li>
+                    <li><a href="/stay#hostel">โฮสเทล</a></li>
+                    <li><a href="/stay#apartment">อพาร์ทเม้นท์</a></li>
+                    <li><a href="/stay#villa">บ้านพัก/วิลล่า</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item">
+                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down" style="font-size: 0.6rem; opacity:0.5;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/cafe">คาเฟ่ใกล้ทะเล</a></li>
+                    <li><a href="/cafe">คาเฟ่สัตว์เลี้ยง</a></li>
+                </ul>
+            </li>
             <li><a href="/market">ตลาด</a></li>
             <li><a href="/travel">การเดินทาง</a></li>
         </ul>
     </nav>
 
-    <div id="dynamic-content">
-    </div>
     <header class="page-header">
-        <h1 class="page-title">การเดินทาง</h1>
-        <p class="page-desc">เส้นทางการเดินทางสู่สัตหีบ สะดวกทั้งรถส่วนตัวและรถสาธารณะ</p>
+        <div class="header-content">
+            <h1 class="page-title">การเดินทาง</h1>
+            <p class="page-desc">เส้นทางการเดินทางสู่สัตหีบ สะดวกทั้งรถส่วนตัวและรถสาธารณะ</p>
+        </div>
     </header>
 
     <section class="container">
-        <div
-            style="background: var(--bg-card); padding: 30px; border-radius: 20px; border-left: 5px solid var(--accent); margin-bottom: 30px;">
-            <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: var(--accent);"><i class="fas fa-car"></i>
-                รถยนต์ส่วนตัว</h3>
-            <p style="color: var(--text-muted); line-height: 1.8;">
+        <div class="info-box accent-car reveal">
+            <h3 class="box-title"><i class="fas fa-car"></i> รถยนต์ส่วนตัว</h3>
+            <p class="box-desc">
                 ใช้เส้นทาง <strong>มอเตอร์เวย์ (สาย 7)</strong> กรุงเทพฯ - พัทยา - มาบตาพุด <br>
                 โดยลงด่าน "อู่ตะเภา" จะเข้าสู่อำเภอสัตหีบได้รวดเร็วที่สุด ใช้เวลาเดินทางประมาณ 2 - 2.30 ชั่วโมง
             </p>
         </div>
 
-        <div
-            style="background: var(--bg-card); padding: 30px; border-radius: 20px; border-left: 5px solid var(--gold); margin-bottom: 30px;">
-            <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: var(--gold);"><i class="fas fa-shuttle-van"></i>
-                รถตู้ / มินิบัส</h3>
-            <ul style="color: var(--text-muted); line-height: 1.8; margin-left: 20px;">
-                <li><strong>หมอชิต 2:</strong> อาคาร C ช่องจอด C4 (สัตหีบ - กม.10)</li>
-                <li><strong>เอกมัย:</strong> ช่องขายตั๋วที่ 24 (สัตหีบ - แสมสาร)</li>
-                <li>ราคาประมาณ 150 - 160 บาท</li>
-            </ul>
+        <div class="info-box accent-van reveal">
+            <h3 class="box-title"><i class="fas fa-shuttle-van"></i> รถตู้ / มินิบัส</h3>
+            <div class="box-desc">
+                <ul class="custom-list">
+                    <li><strong>หมอชิต 2:</strong> อาคาร C ช่องจอด C4 (สัตหีบ - กม.10)</li>
+                    <li><strong>เอกมัย:</strong> ช่องขายตั๋วที่ 24 (สัตหีบ - แสมสาร)</li>
+                    <li>ราคาประมาณ 150 - 160 บาท</li>
+                </ul>
+            </div>
         </div>
 
-        <div style="background: var(--bg-card); padding: 30px; border-radius: 20px; border-left: 5px solid #f472b6;">
-            <h3 style="font-size: 1.5rem; margin-bottom: 15px; color: #f472b6;"><i class="fas fa-train"></i> รถไฟ</h3>
-            <p style="color: var(--text-muted); line-height: 1.8;">
+        <div class="info-box accent-train reveal">
+            <h3 class="box-title"><i class="fas fa-train"></i> รถไฟ</h3>
+            <p class="box-desc">
                 รถไฟขบวนพิเศษ (เสาร์-อาทิตย์) <strong>กรุงเทพ - จุกเสม็ด</strong><br>
                 ลงสถานี "บ้านพลูตาหลวง" และต่อรถสองแถวเข้าสัตหีบ<br>
-                <em>*ตรวจสอบตารางเดินรถกับการรถไฟอีกครั้ง</em>
+                <em style="font-size: 0.9rem; opacity: 0.7; display: block; margin-top: 10px;"><i
+                        class="fas fa-info-circle"></i> *ตรวจสอบตารางเดินรถกับการรถไฟอีกครั้ง</em>
             </p>
         </div>
     </section>
+
     <script>
-        // เลือกลิงก์ทั้งหมดที่ต้องการให้เปิดแท็บใหม่
-        document.querySelectorAll('.btn-link').forEach(link => {
-            link.setAttribute('target', '_blank');      // เปิดแท็บใหม่
-            link.setAttribute('rel', 'noopener noreferrer'); // ปลอดภัย
+        // Reveal on Scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 50;
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Trigger on load
+
+        // Navbar Logic
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.style.top = '-100px';
+            } else {
+                navbar.style.top = '0';
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        // Open links in new tab (Note: No links in content bodies here, but keeping for consistency if added later)
+        document.querySelectorAll('.btn-book').forEach(link => {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
         });
     </script>
 </body>
