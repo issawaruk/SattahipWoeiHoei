@@ -1,21 +1,8 @@
 {
-    "destination": "/api/server.js",
-    "builds": [
+    "rewrites": [
         {
-            "src": "api/app.py",
-            "use": "@vercel/python",
-            "config": {
-                "includeFiles": [
-                    "static/**",
-                    "templates/**"
-                ]
-            }
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "api/app.py"
+            "source": "/(.*)",
+            "destination": "/api/server.js"
         }
     ]
 }
