@@ -1,5 +1,4 @@
 {
-    "source": "/(.*)",
     "destination": "/api/server.js",
     "builds": [
         {
