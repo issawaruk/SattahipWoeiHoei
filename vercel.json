@@ -1,8 +1,27 @@
 {
+<<<<<<< HEAD
     "rewrites": [
         {
             "source": "/(.*)",
             "destination": "/api/server.js"
+=======
+    "builds": [
+        {
+            "src": "api/app.py",
+            "use": "@vercel/python",
+            "config": {
+                "includeFiles": [
+                    "static/**",
+                    "templates/**"
+                ]
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "api/app.py"
+>>>>>>> d9dfaadad1d367dd54fea015bbfd92fd17c4fc1d
         }
     ]
 }

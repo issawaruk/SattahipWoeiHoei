@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สับหีบ เว้ยเฮ้ย</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Prompt:wght@200;300;500;600&family=Playfair+Display:ital,wght@1,600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. Variables & Reset --- */
+        :root {
+            --bg-dark: #0f172a;
+            /* Navy Blue ลึกๆ */
+            --bg-card: #1e293b;
+            --accent: #38bdf8;
+            /* ฟ้าสว่าง */
+            --gold: #fbbf24;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --glass: rgba(15, 23, 42, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- 2. Floating Navbar (Glassmorphism) --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--accent), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .menu-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .menu-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Mobile Hamburger */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- 3. Cinematic Hero Section --- */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Hero Background with Parallax feel */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop') no-repeat center/cover;
+            filter: brightness(0.6);
+            transform: scale(1.1);
+            animation: zoomSlow 20s infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes zoomSlow {
+            from {
+                transform: scale(1.1);
+            }
+
+            to {
+                transform: scale(1.2);
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-explore {
+            padding: 15px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            color: #fff;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .btn-explore:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        /* --- 4. Section Styling --- */
+        section {
+            padding: 80px 5%;
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 500;
+        }
+
+        .section-subtitle {
+            color: var(--accent);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* --- 5. Horizontal Scroll Cards (Netflix Style) --- */
+        .scroll-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 30px;
+            scroll-snap-type: x mandatory;
+            /* แม่เหล็กดูดรูป */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Hide Scrollbar but keep functionality */
+        .scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .scroll-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .card {
+            min-width: 300px;
+            height: 400px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            scroll-snap-align: start;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 20px;
+            background: linear-gradient(to top, var(--bg-dark), transparent);
+        }
+
+        .card-tag {
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            border-radius: 5px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        /* --- 6. Bento Grid (For Cafes & Food) --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .bento-item {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bento-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .bento-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        /* --- 7. Mobile Navigation Bottom Bar (Optional for App feel) --- */
+        @media (max-width: 768px) {
+            .menu-links {
+                display: none;
+            }
+
+            /* Hide top menu */
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            /* Bottom Tab Bar */
+            .mobile-tab-bar {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                background: rgba(30, 41, 59, 0.9);
+                backdrop-filter: blur(10px);
+                padding: 15px 25px;
+                border-radius: 50px;
+                display: flex;
+                justify-content: space-between;
+                z-index: 1001;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .tab-item {
+                color: var(--text-muted);
+                font-size: 1.2rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .tab-item span {
+                font-size: 0.6rem;
+            }
+
+            .tab-item.active {
+                color: var(--accent);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-tab-bar {
+                display: none;
+            }
+        }
+
+        /* --- Dropdown Menu Styling --- */
+        .menu-links li.dropdown-item {
+            position: relative;
+            /* เพื่อให้เมนูย่อยอ้างอิงตำแหน่งจากแม่ */
+            padding-bottom: 10px;
+            /* เพิ่มพื้นที่กันเมนูหายตอนเลื่อนเมาส์ลง */
+            margin-bottom: -10px;
+            /* ดึงกลับให้เท่าเดิม */
+        }
+
+        .dropdown-menu {
+            /* --- เพิ่ม 2 บรรทัดนี้เพื่อลบวงกลมและขอบเกิน --- */
+            list-style: none;
+            padding: 0;
+
+            /* --- โค้ดเดิม --- */
+            position: absolute;
+            top: 100%;
+            left: -20px;
+            width: 180px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            /* padding: 10px 0;  <-- บรรทัดนี้ลบออก หรือเปลี่ยนเป็น padding: 5px 0; แทนก็ได้ถ้าอยากให้มีขอบบนล่าง */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        /* เมื่อเอาเมาส์ชี้ที่แม่ (.dropdown-item) ให้แสดงลูก (.dropdown-menu) */
+        .menu-links li.dropdown-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* จัดการ Link ใน Dropdown */
+        .dropdown-menu li a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: 0.2s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .dropdown-menu li:last-child a {
+            border-bottom: none;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--accent);
+            padding-left: 25px;
+            /* ลูกเล่นขยับข้อความเมื่อชี้ */
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="/">Sattahip Woeihoei</a></div>
+        <ul class="menu-links">
+            <li><a href="/attractions">สถานที่ท่องเที่ยว</a></li>
+            <li class="dropdown-item">
+                <a href="/stay">ที่พัก <i class="fas fa-chevron-down"
+                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/hotel">โรงแรม</a></li>
+                    <li><a href="/hostel">โฮสเทล</a></li>
+                    <li><a href="/apartment">อพาร์ทเม้นท์</a></li>
+                    <li><a href="/village">บ้านพัก/วิลล่า</a></li>
+                </ul>
+            </li>
+            <li class="dropdown-item">
+                <a href="/cafe">คาเฟ่ <i class="fas fa-chevron-down"
+                        style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/hotel">คาเฟ่ใกล้ทะเล</a></li>
+                    <li><a href="/hostel">คาเฟ่สัตว์เลี้ยง</a></li>
+                </ul>
+            </li>
+            <li><a href="/market">ตลาด</a></li>
+            <li><a href="/travel">การเดินทาง</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>UNSEEN<br>SATTAHIP</h1>
+            <p>สัมผัสประสบการณ์ทะเลตะวันออก ในมุมมองที่คุณไม่เคยเห็นมาก่อน</p>
+            <button class="btn-explore"
+                onclick="document.getElementById('attractions').scrollIntoView({behavior: 'smooth'})">เริ่มเดินทาง</button>
+        </div>
+    </header>
+
+    <section id="attractions">
+        <div class="section-header">
+            <div>
+                <span class="section-subtitle">HIGHLIGHTS</span>
+                <h2 class="section-title">จุดเช็คอินห้ามพลาด</h2>
+            </div>
+            <div style="color: var(--text-muted);"><i class="fas fa-arrow-right"></i> เลื่อนดู</div>
+        </div>
+
+        <div class="scroll-container">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=1000&auto=format&fit=crop"
+                    alt="Beach">
+                <div class="card-overlay">
+                    <span class="card-tag">ยอดฮิต</span>
+                    <h3>หาดนางรำ-นางรอง</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.8;">น้ำใส ทรายขาว อาหารอร่อย</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://static.thairath.co.th/media/dFQROr7oWzulq5Fa6rpQ6S1hnVvQQnRafTVlf71mQ0S6ew9Yfw3MfHtER0Ib4FGDjt1.jpg"
+                    alt="Ship">
+                <div class="card-overlay">
+                    <span class="card-tag">แลนด์มาร์ค</span>
+                    <h3>เรือหลวงจักรีนฤเบศร</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.8;">ความภูมิใจแห่งราชนาวีไทย</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1582650625119-3a31f8fa2699?q=80&w=1000&auto=format&fit=crop"
+                    alt="Turtle">
+                <div class="card-overlay">
+                    <span class="card-tag">ครอบครัว</span>
+                    <h3>ศูนย์อนุรักษ์เต่าทะเล</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.8;">แหล่งเรียนรู้ธรรมชาติ</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=1000&auto=format&fit=crop"
+                    alt="Island">
+                <div class="card-overlay">
+                    <span class="card-tag">Adventure</span>
+                    <h3>เกาะแสมสาร</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.8;">ดำน้ำดูปะการัง</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cafe" style="background: #162032;">
+        <div class="section-header">
+            <div>
+                <span class="section-subtitle">LIFESTYLE</span>
+                <h2 class="section-title">กิน เที่ยว ชิลล์</h2>
+            </div>
+        </div>
+
+        <div class="bento-grid">
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1000&auto=format&fit=crop"
+                    class="bento-img" alt="Coffee">
+                <div>
+                    <h3 style="color: var(--accent);">Coffee Beach</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">คาเฟ่ริมเลบรรยากาศดี</p>
+                </div>
+            </div>
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=1000&auto=format&fit=crop"
+                    class="bento-img" alt="Seafood">
+                <div>
+                    <h3 style="color: var(--gold);">ตลาดแสมสาร</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">อาหารทะเลสด ราคาถูก</p>
+                </div>
+            </div>
+            <div class="bento-item">
+                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1000&auto=format&fit=crop"
+                    class="bento-img" alt="Resort">
+                <div>
+                    <h3 style="color: #f472b6;">Kept Bangsaray</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">ที่พักสไตล์มัลดีฟส์</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth Scroll Effect for Nav Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+
+                // Active State Logic (Simple)
+                document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
+                if (this.classList.contains('tab-item')) {
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Navbar disappear on scroll down, appear on up (Smart Navbar)
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('nav');
+
+        window.addEventListener('scroll', function () {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                navbar.style.top = '-80px'; // Hide
+            } else {
+                navbar.style.top = '0'; // Show
+            }
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+
+</html>
