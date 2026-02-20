@@ -54,7 +54,7 @@ def travel(request: Request):
 def market(request: Request):
     return templates.TemplateResponse("market.html", {"request": request})
 
-@app.get("/sattahip9", response_class=HTMLResponse)
+@app.get("/stay/sattahip9", response_class=HTMLResponse)
 def sattahip9(request: Request):
     return templates.TemplateResponse("sattahip9.html", {"request": request})
 
