@@ -54,6 +54,9 @@ def travel(request: Request):
 def market(request: Request):
     return templates.TemplateResponse("market.html", {"request": request})
 
+@app.get("/review-sattahip9", response_class=HTMLResponse)
+def sattahip9(request: Request):
+    return templates.TemplateResponse("review-sattahip9.html", {"request": request})
 
 # Local run only
 if __name__ == "__main__":
