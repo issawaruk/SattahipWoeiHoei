@@ -56,7 +56,7 @@ def market(request: Request):
 
 @app.get("/sattahip9", response_class=HTMLResponse)
 def sattahip9(request: Request):
-    return templates.TemplateResponse("review-sattahip9.html", {"request": request})
+    return templates.TemplateResponse("reviewsattahip9.html", {"request": request})
 
 # Local run only
 if __name__ == "__main__":
